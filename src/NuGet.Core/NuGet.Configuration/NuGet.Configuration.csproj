@@ -3,7 +3,8 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
-    <Description>NuGet's configuration settings implementation.</Description>
+    <PackageId>JetBrains.NuGet.Configurations</PackageId>
+    <Description>NuGet's client configuration settings implementation.</Description>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFrameworks Condition="'$(IsBuildOnlyXPLATProjects)' != 'true'">$(TargetFrameworks);net45</TargetFrameworks>
