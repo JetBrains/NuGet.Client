@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <Description>Common utilities and interfaces for all NuGet libraries.</Description>
+    <PackageId>JetBrains.NuGet.Common</PackageId>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFramework />
     <NoWarn>$(NoWarn);CS1591;CS1574;RS0016</NoWarn>
