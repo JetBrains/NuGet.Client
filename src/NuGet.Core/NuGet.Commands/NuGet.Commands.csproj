@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.Commands</PackageId>
     <Description>Complete commands common to command-line and GUI NuGet clients.</Description>
     <TargetFrameworks Condition="'$(IsVsixBuild)' != 'true'">$(TargetFrameworksLibraryForSigning)</TargetFrameworks>
     <TargetFramework Condition="'$(IsVsixBuild)' == 'true'">$(NETFXTargetFramework)</TargetFramework>
