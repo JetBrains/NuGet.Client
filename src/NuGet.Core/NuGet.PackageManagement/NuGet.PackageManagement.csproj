@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.PackageManagement</PackageId>
     <Description>NuGet Package Management functionality for Visual Studio installation flow.</Description>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFramework />
@@ -35,6 +36,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' == '$(NetStandardVersion)' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0' ">
     <PackageReference Include="System.ComponentModel.Composition" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Compile Update="Strings.Designer.cs">
