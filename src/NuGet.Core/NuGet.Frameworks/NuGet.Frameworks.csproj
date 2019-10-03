@@ -3,6 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.Frameworks</PackageId>
     <Description>NuGet's understanding of target frameworks.</Description>
     <TargetFrameworks>$(TargetFrameworksLibrary);net40</TargetFrameworks>
     <TargetFramework />

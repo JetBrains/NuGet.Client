@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <Description>Common utilities and interfaces for all NuGet libraries.</Description>
+    <PackageId>JetBrains.NuGet.Common</PackageId>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFrameworks Condition="'$(DotNetBuildFromSource)' != 'true'">$(TargetFrameworks);net45</TargetFrameworks>
     <TargetFramework />
