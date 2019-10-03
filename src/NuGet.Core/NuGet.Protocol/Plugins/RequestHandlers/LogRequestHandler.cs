@@ -16,24 +16,41 @@ namespace NuGet.Protocol.Plugins
         private ILogger _logger;
         private LogLevel _logLevel;
 
+        private IPluginLogger _pluginLogger;
         /// <summary>
         /// Gets the <see cref="CancellationToken" /> for a request.
         /// </summary>
         public CancellationToken CancellationToken => CancellationToken.None;
+
 
         /// <summary>
         /// Instantiates a new instance of the <see cref="LogRequestHandler" /> class.
         /// </summary>
         /// <param name="logger">A logger.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="logger" /> is <c>null</c>.</exception>
-        public LogRequestHandler(ILogger logger)
+        public LogRequestHandler(ILogger logger) :
+            this(logger, PluginLogger.DefaultInstance)
+        {
+        }
+        /// <summary>
+        /// Instantiates a new instance of the <see cref="LogRequestHandler" /> class.
+        /// </summary>
+        /// <param name="logger">A logger.</param>
+        /// <param name="pluginLogger">A plugin logger</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="logger" /> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="pluginLogger" /> is <c>null</c>.</exception>
+        internal LogRequestHandler(ILogger logger, IPluginLogger pluginLogger)
         {
             if (logger == null)
             {
                 throw new ArgumentNullException(nameof(logger));
             }
-
+            if (pluginLogger == null)
+            {
+                throw new ArgumentNullException(nameof(pluginLogger));
+            }
             SetLogger(logger);
+            _pluginLogger = pluginLogger;
         }
 
         /// <summary>
@@ -79,8 +96,18 @@ namespace NuGet.Protocol.Plugins
 
             if (logRequest.LogLevel >= _logLevel)
             {
-                Log(logRequest);
+                try
+                {
+                    Log(logRequest);
+                }
+                catch (Exception ex)
+                {
+                    if (_pluginLogger.IsEnabled)
+                    {
+                        _pluginLogger.Write(new ExceptionLogMessage(_pluginLogger.Now, request.RequestId, request.Method, request.Type, ex.GetType().FullName, "LogRequestHandler swallowed exception: " + ex.Message, ex.StackTrace, TaskState.Executing));
 
+                    }
+                }
                 responseCode = MessageResponseCode.Success;
             }
             else

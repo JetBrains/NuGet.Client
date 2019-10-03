@@ -235,6 +235,10 @@ namespace NuGet.Protocol.Plugins
                     }
                     catch (Exception ex)
                     {
+                        if (_logger.IsEnabled)
+                        {
+                            _logger.Write(new ExceptionLogMessage(_logger.Now, request.RequestId, request.Method, request.Type, ex.GetType().FullName, ex.Message, ex.StackTrace, TaskState.Executing));
+                        }
                         BeginFaultAsync(request, ex);
                     }
                     finally
