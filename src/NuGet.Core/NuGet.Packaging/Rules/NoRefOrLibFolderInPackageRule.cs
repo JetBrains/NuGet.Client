@@ -62,8 +62,10 @@ namespace NuGet.Packaging.Rules
                                     && t.GetShortFolderName() != FrameworkConstants.FrameworkIdentifiers.Native).
                             Select(t => t.GetShortFolderName()).ToArray();
 
-                        (var tfmNames, var suggestedDirectories) = GenerateWarningString(possibleFrameworks);
-                        
+                        Tuple<string,string> generateWarningString = GenerateWarningString(possibleFrameworks);
+                        var tfmNames = generateWarningString.Item1;
+                        var suggestedDirectories = generateWarningString.Item2;
+
                         var issue = new List<PackagingLogMessage>();
                         issue.Add(PackagingLogMessage.CreateWarning(string.Format(MessageFormat, tfmNames, suggestedDirectories),
                             NuGetLogCode.NU5127));
@@ -75,7 +77,7 @@ namespace NuGet.Packaging.Rules
             return Array.Empty<PackagingLogMessage>();
         }
 
-        private (string, string) GenerateWarningString(string[] possibleFrameworks)
+        private Tuple<string, string> GenerateWarningString(string[] possibleFrameworks)
         {
             string tfmNames = possibleFrameworks.Length > 1
                 ? string.Join(", ", possibleFrameworks)
@@ -84,8 +86,8 @@ namespace NuGet.Packaging.Rules
             string suggestedDirectories = possibleFrameworks.Length > 1
                 ? CreateDirectoriesMessage(possibleFrameworks)
                 : string.Format("-lib/{0}/_._", possibleFrameworks[0]);
-            
-            return (tfmNames, suggestedDirectories);
+
+            return new Tuple<string, string>(tfmNames, suggestedDirectories);
         }
 
         private static string CreateDirectoriesMessage(string[] possibleFrameworks)
