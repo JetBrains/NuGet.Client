@@ -3,6 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.Frameworks</PackageId>
     <Description>NuGet's understanding of target frameworks.</Description>
     <TargetFrameworks Condition="'$(IsBuildOnlyXPLATProjects)' == 'true'">$(TargetFrameworksLibrary);netstandard2.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(IsBuildOnlyXPLATProjects)' != 'true'">$(TargetFrameworksLibrary);net40</TargetFrameworks>
