@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>NuGet's understanding of packages. Reading nuspec, nupkgs and package signing.</Description>
+    <PackageId>JetBrains.NuGet.Packaging</PackageId>
+    <Description>NuGet's implementation for reading nupkg package and nuspec package specification files.</Description>
     <TargetFrameworks>$(TargetFrameworksLibraryForSigning)</TargetFrameworks>
     <TargetFramework />
     <NoWarn>$(NoWarn);CS1591;CS1574;CS1573;CS1572;RS0041</NoWarn>
