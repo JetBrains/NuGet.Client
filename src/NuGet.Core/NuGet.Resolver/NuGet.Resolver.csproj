@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>NuGet's dependency resolver for packages.config based projects.</Description>
+    <PackageId>JetBrains.NuGet.Resolver</PackageId>
+    <Description>NuGet's dependency resolver within the NuGet.Packaging package.</Description>
     <TargetFrameworks>$(TargetFrameworksLibraryForSigning)</TargetFrameworks>
     <TargetFramework />
     <NoWarn>$(NoWarn);CS1591;CS1573;RS0041</NoWarn>
