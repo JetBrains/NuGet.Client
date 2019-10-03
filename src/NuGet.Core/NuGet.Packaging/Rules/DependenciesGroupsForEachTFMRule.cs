@@ -30,13 +30,18 @@ namespace NuGet.Packaging.Rules
             var files = package.GetFiles().
                 Where(t => PathUtility.GetPathWithDirectorySeparator(t).Count(m => m == Path.DirectorySeparatorChar) > 1);
             var packageNuspec = ExtractTFMsFromNuspec(package.GetNuspec());
-            var (compatNotExactMatches, noExactMatchesFromFile, noExactMatchesFromNuspec) = Categorize(files, packageNuspec);
+            var categorizeResult = Categorize(files, packageNuspec);
+            var compatNotExactMatches = categorizeResult.Item1;
+            var noExactMatchesFromFile = categorizeResult.Item2;
+            var noExactMatchesFromNuspec = categorizeResult.Item3;
             return GenerateWarnings(compatNotExactMatches, noExactMatchesFromFile, noExactMatchesFromNuspec);
         }
 
         internal IEnumerable<PackagingLogMessage> GenerateWarnings(HashSet<NuGetFramework> compatNotExactMatches, HashSet<NuGetFramework> noExactMatchesFromFile, HashSet<NuGetFramework> noExactMatchesFromNuspec)
         {
-            (string noExactMatchString, string compatMatchString) = GenerateWarningString(noExactMatchesFromFile, noExactMatchesFromNuspec, (ICollection<NuGetFramework>)compatNotExactMatches);
+            var generateWarningStringResult = GenerateWarningString(noExactMatchesFromFile, noExactMatchesFromNuspec, (ICollection<NuGetFramework>)compatNotExactMatches);
+            string noExactMatchString = generateWarningStringResult.Item1;
+            string compatMatchString = generateWarningStringResult.Item2;
 
             var issues = new List<PackagingLogMessage>();
 
@@ -58,7 +63,7 @@ namespace NuGet.Packaging.Rules
             return Array.Empty<PackagingLogMessage>();
         }
 
-        internal (HashSet<NuGetFramework>, HashSet<NuGetFramework>, HashSet<NuGetFramework>) Categorize(IEnumerable<string> files, IEnumerable<NuGetFramework> tfmsFromNuspec)
+        internal Tuple<HashSet<NuGetFramework>, HashSet<NuGetFramework>, HashSet<NuGetFramework>> Categorize(IEnumerable<string> files, IEnumerable<NuGetFramework> tfmsFromNuspec)
         {
             var managedCodeConventions = new ManagedCodeConventions(new RuntimeGraph());
             Func<object, object, bool> isCompatible = managedCodeConventions.Properties["tfm"].CompatibilityTest;
@@ -98,10 +103,10 @@ namespace NuGet.Packaging.Rules
                 noExactMatchesFromFile.RemoveWhere(p => compatNotExactMatches.Contains(p));
             }
 
-            return (compatNotExactMatches, noExactMatchesFromFile, noExactMatchesFromNuspec);
+            return new Tuple<HashSet<NuGetFramework>, HashSet<NuGetFramework>, HashSet<NuGetFramework>>(compatNotExactMatches, noExactMatchesFromFile, noExactMatchesFromNuspec);
         }
-        
-        internal (string noExactMatchString, string compatMatchString) GenerateWarningString(ICollection<NuGetFramework> noExactMatchesFromFile,
+
+        internal Tuple<string, string> GenerateWarningString(ICollection<NuGetFramework> noExactMatchesFromFile,
                 ICollection<NuGetFramework> noExactMatchesFromNuspec, ICollection<NuGetFramework> compatNotExactMatches)
         {
             var noExactMatchString = new StringBuilder();
@@ -110,11 +115,11 @@ namespace NuGet.Packaging.Rules
             if (noExactMatchesFromFile.Count != 0)
             {
                 noExactMatchString.AppendLine(MessageFormat);
-                
+
                 foreach (var tfm in noExactMatchesFromFile)
                 {
                     if(tfm == noExactMatchesFromFile.First())
-                    { 
+                    {
                         noExactMatchString.Append(AnalysisResources.DependenciesGroupsForEachTFMBeginningToNuspec);
                         noExactMatchString.Append(" ");
                         noExactMatchString.Append(tfm.GetFrameworkString());
@@ -122,7 +127,7 @@ namespace NuGet.Packaging.Rules
                     }
                     noExactMatchString.Append(" ");
                     noExactMatchString.AppendLine(AnalysisResources.DependenciesGroupsForEachTFMEndingToNuspec);
-                    
+
                     noExactMatchString.Append(AnalysisResources.DependenciesGroupsForEachTFMBeginningToNuspec);
                     noExactMatchString.Append(" ");
                     noExactMatchString.Append(tfm.GetFrameworkString());
@@ -136,7 +141,7 @@ namespace NuGet.Packaging.Rules
                 if (noExactMatchString.Length == 0)
                 {
                     noExactMatchString.AppendLine(MessageFormat);
-                    
+
                 }
 
                 foreach (var tfm in noExactMatchesFromNuspec)
@@ -161,7 +166,7 @@ namespace NuGet.Packaging.Rules
             if (compatNotExactMatches.Count != 0)
             {
                 compatMatchString.AppendLine(CompatMatchFoundWarningMessageFormat);
-                
+
                 foreach (var tfm in compatNotExactMatches)
                 {
                     if (tfm == compatNotExactMatches.First())
@@ -172,7 +177,7 @@ namespace NuGet.Packaging.Rules
                         continue;
                     }
                     compatMatchString.Append(" ");
-                    compatMatchString.AppendLine(AnalysisResources.DependenciesGroupsForEachTFMEndingToNuspec);                    
+                    compatMatchString.AppendLine(AnalysisResources.DependenciesGroupsForEachTFMEndingToNuspec);
                     compatMatchString.Append(AnalysisResources.DependenciesGroupsForEachTFMBeginningToNuspec);
                     compatMatchString.Append(" ");
                     compatMatchString.Append(tfm.GetFrameworkString());
@@ -181,7 +186,7 @@ namespace NuGet.Packaging.Rules
                 compatMatchString.Append(AnalysisResources.DependenciesGroupsForEachTFMEndingToNuspec);
             }
 
-            return (noExactMatchString.ToString().Trim(), compatMatchString.ToString());
+            return new Tuple<string, string>(noExactMatchString.ToString().Trim(), compatMatchString.ToString());
         }
 
         private static IEnumerable<NuGetFramework> ExtractTFMsFromNuspec(Stream packageNuspecStream)
