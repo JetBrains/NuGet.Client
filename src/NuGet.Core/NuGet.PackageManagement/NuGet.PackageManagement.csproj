@@ -3,6 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.PackageManagement</PackageId>
     <Description>NuGet Package Management.</Description>
     <TargetFramework>$(NETFXTargetFramework)</TargetFramework>
     <NoWarn>$(NoWarn);CS1591;CS1580;CS1574;CS1573</NoWarn>

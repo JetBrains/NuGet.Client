@@ -3,6 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.Packaging</PackageId>
     <Description>NuGet's implementation for reading nupkg package and nuspec package specification files.</Description>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFramework />

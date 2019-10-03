@@ -3,6 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
+    <PackageId>JetBrains.NuGet.Resolver</PackageId>
     <Description>NuGet's dependency resolver within the NuGet.Packaging package.</Description>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFramework />
