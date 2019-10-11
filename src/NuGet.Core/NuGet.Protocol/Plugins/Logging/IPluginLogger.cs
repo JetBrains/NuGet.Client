@@ -5,7 +5,7 @@ using System;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal interface IPluginLogger : IDisposable
+    public interface IPluginLogger : IDisposable
     {
         bool IsEnabled { get; }
         DateTimeOffset Now { get; }

@@ -7,7 +7,7 @@ using System.Text.Json.Nodes;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal abstract class PluginLogMessage : IPluginLogMessage
+    public abstract class PluginLogMessage : IPluginLogMessage
     {
         private readonly DateTime _now;
 

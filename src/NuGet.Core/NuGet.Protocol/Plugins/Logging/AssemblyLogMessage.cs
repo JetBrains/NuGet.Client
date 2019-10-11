@@ -7,14 +7,14 @@ using System.Text.Json.Nodes;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class AssemblyLogMessage : PluginLogMessage
+    public sealed class AssemblyLogMessage : PluginLogMessage
     {
         private readonly string? _fileVersion;
         private readonly string? _fullName;
         private readonly string? _informationalVersion;
         private readonly string? _entryAssemblyFullName;
 
-        internal AssemblyLogMessage(DateTimeOffset now)
+        public AssemblyLogMessage(DateTimeOffset now)
             : base(now)
         {
             var assembly = typeof(PluginFactory).Assembly;

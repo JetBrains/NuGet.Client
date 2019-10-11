@@ -8,7 +8,7 @@ using NuGet.Common;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class PluginLogger : IPluginLogger
+    public sealed class PluginLogger : IPluginLogger
     {
         private bool _isDisposed;
         private readonly Lazy<StreamWriter> _streamWriter;
@@ -32,7 +32,7 @@ namespace NuGet.Protocol.Plugins
         /// reads <c>NUGET_PLUGIN_ENABLE_LOG</c> and <c>NUGET_PLUGIN_LOG_DIRECTORY_PATH</c> from the environment of the
         /// build that actually uses it.
         /// </summary>
-        internal static PluginLogger DefaultInstance
+        public static PluginLogger DefaultInstance
         {
             get
             {
