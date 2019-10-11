@@ -7,13 +7,13 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class AssemblyLogMessage : PluginLogMessage
+    public sealed class AssemblyLogMessage : PluginLogMessage
     {
         private readonly string _fileVersion;
         private readonly string _fullName;
         private readonly string _informationalVersion;
 
-        internal AssemblyLogMessage(DateTimeOffset now)
+        public AssemblyLogMessage(DateTimeOffset now)
             : base(now)
         {
             var assembly = typeof(PluginFactory).Assembly;

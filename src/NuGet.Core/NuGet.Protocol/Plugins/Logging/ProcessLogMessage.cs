@@ -7,12 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class ProcessLogMessage : PluginLogMessage
+    public sealed class ProcessLogMessage : PluginLogMessage
     {
         private readonly int _processId;
         private readonly string _processName;
 
-        internal ProcessLogMessage(DateTimeOffset now)
+        public ProcessLogMessage(DateTimeOffset now)
             : base(now)
         {
             using (var process = Process.GetCurrentProcess())
