@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal abstract class PluginLogMessage : IPluginLogMessage
+    public abstract class PluginLogMessage : IPluginLogMessage
     {
         private static readonly StringEnumConverter _enumConverter = new StringEnumConverter();
 
