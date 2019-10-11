@@ -6,11 +6,11 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class StopwatchLogMessage : PluginLogMessage
+    public sealed class StopwatchLogMessage : PluginLogMessage
     {
         private readonly long _frequency;
 
-        internal StopwatchLogMessage(DateTimeOffset now, long frequency)
+        public StopwatchLogMessage(DateTimeOffset now, long frequency)
             : base(now)
         {
             _frequency = frequency;
