@@ -86,7 +86,7 @@ namespace NuGet.Protocol.Plugins
         {
         }
 
-        internal Plugin(string filePath, IConnection connection, IPluginProcess process, bool isOwnProcess, TimeSpan idleTimeout, string id)
+        public Plugin(string filePath, IConnection connection, IPluginProcess process, bool isOwnProcess, TimeSpan idleTimeout, string id)
         {
             if (string.IsNullOrEmpty(filePath))
             {
@@ -188,7 +188,7 @@ namespace NuGet.Protocol.Plugins
             }
         }
 
-        internal static string CreateNewId()
+        public static string CreateNewId()
         {
             return Guid.NewGuid().ToString("N", provider: null);
         }
