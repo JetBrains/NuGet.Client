@@ -8,7 +8,7 @@ using NuGet.Common;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class PluginLogger : IPluginLogger
+    public sealed class PluginLogger : IPluginLogger
     {
         private bool _isDisposed;
         private readonly Lazy<StreamWriter> _streamWriter;
@@ -17,7 +17,7 @@ namespace NuGet.Protocol.Plugins
         private readonly Stopwatch _stopwatch;
         private readonly object _streamWriterLock;
 
-        internal static PluginLogger DefaultInstance { get; } = new PluginLogger(EnvironmentVariableWrapper.Instance);
+        public static PluginLogger DefaultInstance { get; } = new PluginLogger(EnvironmentVariableWrapper.Instance);
 
         public bool IsEnabled { get; }
         // The DateTimeOffset and Stopwatch ticks are not equivalent. 1/10000000 is 1 DateTime tick.

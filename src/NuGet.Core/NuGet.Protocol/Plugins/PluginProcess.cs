@@ -39,7 +39,7 @@ namespace NuGet.Protocol.Plugins
             }
         }
 
-        internal string FilePath => _process.MainModule.FileName;
+        public string FilePath => _process.MainModule.FileName;
 
         /// <summary>
         /// Gets the process ID if the process was started; otherwise, <c>null</c>.
@@ -54,7 +54,7 @@ namespace NuGet.Protocol.Plugins
             }
         }
 
-        internal StreamWriter StandardInput => _process.StandardInput;
+        public StreamWriter StandardInput => _process.StandardInput;
 
         /// <summary>
         /// Instantiates a new <see cref="PluginProcess" /> class from the current process.
