@@ -227,13 +227,12 @@ namespace NuGet.Common
         {
             get
             {
-                if (_basePath != null)
+                if (_basePath != null && (!RuntimeEnvironmentHelper.IsLinux || Directory.Exists(_basePath)))
                 {
                     return _basePath;
                 }
 
                 _basePath = Path.Combine(NuGetEnvironment.GetFolderPath(NuGetFolderPath.Temp), "lock");
-
                 Directory.CreateDirectory(_basePath);
 
                 return _basePath;
