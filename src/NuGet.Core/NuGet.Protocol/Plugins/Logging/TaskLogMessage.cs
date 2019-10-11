@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class TaskLogMessage : PluginLogMessage
+    public sealed class TaskLogMessage : PluginLogMessage
     {
         private readonly int? _currentTaskId;
         private readonly MessageMethod _method;
@@ -15,7 +15,7 @@ namespace NuGet.Protocol.Plugins
         private readonly TaskState _state;
         private readonly MessageType _type;
 
-        internal TaskLogMessage(DateTimeOffset now, string requestId, MessageMethod method, MessageType type, TaskState state)
+        public TaskLogMessage(DateTimeOffset now, string requestId, MessageMethod method, MessageType type, TaskState state)
             : base(now)
         {
             _requestId = requestId;
