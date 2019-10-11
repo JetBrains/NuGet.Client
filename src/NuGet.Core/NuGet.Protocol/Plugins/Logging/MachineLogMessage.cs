@@ -6,11 +6,11 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class MachineLogMessage : PluginLogMessage
+    public sealed class MachineLogMessage : PluginLogMessage
     {
         private readonly int _logicalProcessorCount;
 
-        internal MachineLogMessage(DateTimeOffset now)
+        public MachineLogMessage(DateTimeOffset now)
             : base(now)
         {
             _logicalProcessorCount = Environment.ProcessorCount;
