@@ -30,7 +30,7 @@ namespace NuGet.Protocol.Plugins
         {
         }
 
-        internal PluginDiscoverer(IEnvironmentVariableReader environmentVariableReader)
+        public PluginDiscoverer(IEnvironmentVariableReader environmentVariableReader)
         {
             _environmentVariableReader = environmentVariableReader;
 #if IS_DESKTOP
@@ -226,7 +226,7 @@ namespace NuGet.Protocol.Plugins
         }
 
         /// <summary>
-        /// Retrieves .NET tools authentication plugins by searching through directories specified in `PATH` 
+        /// Retrieves .NET tools authentication plugins by searching through directories specified in `PATH`
         /// </summary>
         /// <returns>A list of valid <see cref="PluginFile"/> objects representing the discovered plugins.</returns>
         internal List<PluginFile> GetPluginsInPath()
