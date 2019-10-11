@@ -3,7 +3,7 @@
 
 namespace NuGet.Protocol.Plugins
 {
-    internal enum PluginState
+    public enum PluginState
     {
         Started,
         Idle,
