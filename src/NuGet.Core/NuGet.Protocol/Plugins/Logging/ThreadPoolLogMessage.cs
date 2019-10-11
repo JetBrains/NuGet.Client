@@ -7,14 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class ThreadPoolLogMessage : PluginLogMessage
+    public sealed class ThreadPoolLogMessage : PluginLogMessage
     {
         private readonly int _maxCompletionPortThreads;
         private readonly int _maxWorkerThreads;
         private readonly int _minCompletionPortThreads;
         private readonly int _minWorkerThreads;
 
-        internal ThreadPoolLogMessage(DateTimeOffset now)
+        public ThreadPoolLogMessage(DateTimeOffset now)
             : base(now)
         {
             ThreadPool.GetMinThreads(out _minWorkerThreads, out _minCompletionPortThreads);

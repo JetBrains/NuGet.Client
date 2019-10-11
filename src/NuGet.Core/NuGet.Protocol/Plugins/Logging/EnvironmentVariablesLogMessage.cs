@@ -7,13 +7,13 @@ using NuGet.Common;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class EnvironmentVariablesLogMessage : PluginLogMessage
+    public sealed class EnvironmentVariablesLogMessage : PluginLogMessage
     {
         private readonly int? _handshakeTimeout;
         private readonly int? _idleTimeout;
         private readonly int? _requestTimeout;
 
-        internal EnvironmentVariablesLogMessage(DateTimeOffset now, IEnvironmentVariableReader environmentVariableReader = null)
+        public EnvironmentVariablesLogMessage(DateTimeOffset now, IEnvironmentVariableReader environmentVariableReader = null)
             : base(now)
         {
             var reader = environmentVariableReader ?? EnvironmentVariableWrapper.Instance;
