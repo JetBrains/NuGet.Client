@@ -6,18 +6,18 @@ using Newtonsoft.Json.Linq;
 
 namespace NuGet.Protocol.Plugins
 {
-    internal sealed class PluginInstanceLogMessage : PluginLogMessage
+    public sealed class PluginInstanceLogMessage : PluginLogMessage
     {
         private readonly string _pluginId;
         private readonly int? _processId;
         private readonly PluginState _state;
 
-        internal PluginInstanceLogMessage(DateTimeOffset now, string pluginId, PluginState state)
+        public PluginInstanceLogMessage(DateTimeOffset now, string pluginId, PluginState state)
             : this(now, pluginId, state, processId: null)
         {
         }
 
-        internal PluginInstanceLogMessage(DateTimeOffset now, string pluginId, PluginState state, int? processId)
+        public PluginInstanceLogMessage(DateTimeOffset now, string pluginId, PluginState state, int? processId)
             : base(now)
         {
             _pluginId = pluginId;
