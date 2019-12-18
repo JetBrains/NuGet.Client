@@ -10,6 +10,9 @@ namespace NuGet.Protocol
 {
     public static class FactoryExtensionsV3
     {
+        public static Func<IEnumerable<Lazy<INuGetResourceProvider>>> V3ProvidersCreator = () => Repository.Provider.GetCoreV3Default();
+
+
         public static SourceRepository GetCoreV3(this Repository.RepositoryFactory factory, string source, FeedType type)
         {
             return Repository.CreateSource(Repository.Provider.GetCoreV3(), source, type);
@@ -30,7 +33,7 @@ namespace NuGet.Protocol
             return Repository.CreateSource(Repository.Provider.GetCoreV3(), source);
         }
 
-        public static IEnumerable<Lazy<INuGetResourceProvider>> GetCoreV3(this Repository.ProviderFactory factory)
+        public static IEnumerable<Lazy<INuGetResourceProvider>> GetCoreV3Default(this Repository.ProviderFactory factory)
         {
             if (factory == null)
             {
@@ -38,6 +41,12 @@ namespace NuGet.Protocol
             }
 
             return factory.GetCoreV3();
+        }
+
+
+        public static IEnumerable<Lazy<INuGetResourceProvider>> GetCoreV3(this Repository.ProviderFactory factory)
+        {
+            return V3ProvidersCreator();
         }
     }
 }
