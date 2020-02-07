@@ -22,7 +22,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 writer.WriteMinClientVersion(NuGetVersion.Parse("3.0.1"));
 
@@ -73,7 +73,7 @@ namespace NuGet.Packaging.Test
                     var path = Path.Combine(testFolder + "packages.config");
 
                     // Act
-                    using (var writer = new PackagesConfigWriter(path, true))
+                    using (var writer = PackagesConfigWriterFactory.Create(path, true))
                     {
                         writer.WriteMinClientVersion(NuGetVersion.Parse("3.0.1"));
 
@@ -117,7 +117,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 var packageIdentityA = new PackageIdentity("packageA", NuGetVersion.Parse("1.0.1"));
                 var packageReferenceA = new PackageReference(packageIdentityA, NuGetFramework.Parse("net45"));
@@ -153,7 +153,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 var vensionRange = new VersionRange(NuGetVersion.Parse("0.5.0"));
                 var packageIdentityA = new PackageIdentity("packageA", NuGetVersion.Parse("1.0.1"));
@@ -199,7 +199,7 @@ namespace NuGet.Packaging.Test
             var stream2 = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 var vensionRange = new VersionRange(NuGetVersion.Parse("0.5.0"));
                 var packageIdentityA = new PackageIdentity("packageA", NuGetVersion.Parse("1.0.1"));
@@ -216,7 +216,7 @@ namespace NuGet.Packaging.Test
             var packageReferenceB = new PackageReference(packageIdentityB, NuGetFramework.Parse("dnxcore50"),
                 userInstalled: false, developmentDependency: false, requireReinstallation: false);
 
-            using (var writer = new PackagesConfigWriter(stream2, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream2, true))
             {
                 writer.UpdateOrAddPackageEntry(xml, packageReferenceB);
             }
@@ -247,7 +247,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 var packageIdentityA = new PackageIdentity("packageA", NuGetVersion.Parse("1.0.1"));
                 var packageReferenceA = new PackageReference(packageIdentityA, NuGetFramework.Parse("net45"));
@@ -272,7 +272,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 writer.AddPackageEntry("packageB", NuGetVersion.Parse("2.0.0"), NuGetFramework.Parse("portable-net45+win8"));
 
@@ -304,7 +304,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 writer.AddPackageEntry("packageB", NuGetVersion.Parse("2.0.0"), NuGetFramework.Parse("portable-net45+win8"));
 
@@ -320,7 +320,7 @@ namespace NuGet.Packaging.Test
             var stream = new MemoryStream();
 
             // Act
-            using (var writer = new PackagesConfigWriter(stream, true))
+            using (var writer = PackagesConfigWriterFactory.Create(stream, true))
             {
                 writer.AddPackageEntry("packageA", NuGetVersion.Parse("1.0.1"), NuGetFramework.Parse("net45"));
 
@@ -339,7 +339,7 @@ namespace NuGet.Packaging.Test
 
                 // Act
                 using (var stream = File.Create(path))
-                using (var writer = new PackagesConfigWriter(stream, true))
+                using (var writer = PackagesConfigWriterFactory.Create(stream, true))
                 {
                 }
 
@@ -377,7 +377,7 @@ namespace NuGet.Packaging.Test
 
                 using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
                 {
-                    using (var writer = new PackagesConfigWriter(stream, false))
+                    using (var writer = PackagesConfigWriterFactory.Create(stream, false))
                     {
                         // Act
                         var packageIdentityA1 = new PackageIdentity("packageA", NuGetVersion.Parse("1.0.0"));
@@ -422,7 +422,7 @@ namespace NuGet.Packaging.Test
                     }
                 }
 
-                Assert.Throws<PackagesConfigWriterException>(() => new PackagesConfigWriter(filePath, false));
+                Assert.Throws<PackagesConfigWriterException>(() => PackagesConfigWriterFactory.Create(filePath, false));
             }
         }
 
@@ -446,7 +446,7 @@ namespace NuGet.Packaging.Test
                     }
                 }
 
-                using (var writer = new PackagesConfigWriter(filePath, false))
+                using (var writer = PackagesConfigWriterFactory.Create(filePath, false))
                 {
                     // Assert
                     Assert.Throws<PackagesConfigWriterException>(() => writer.AddPackageEntry("packageA", NuGetVersion.Parse("2.0.1"), NuGetFramework.Parse("net4")));
@@ -476,7 +476,7 @@ namespace NuGet.Packaging.Test
                     }
                 }
 
-                using (var writer = new PackagesConfigWriter(filePath, false))
+                using (var writer = PackagesConfigWriterFactory.Create(filePath, false))
                 {
                     // Act
                     writer.AddPackageEntry("packageB", NuGetVersion.Parse("2.0.1"), NuGetFramework.Parse("net4"));
