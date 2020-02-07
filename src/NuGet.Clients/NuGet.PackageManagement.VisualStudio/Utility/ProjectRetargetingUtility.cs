@@ -201,7 +201,7 @@ namespace NuGet.PackageManagement.VisualStudio
                 {
                     try
                     {
-                        using (var writer = new PackagesConfigWriter(packagesConfigFullPath, createNew: false))
+                        using (var writer = PackagesConfigWriterFactory.Create(packagesConfigFullPath, createNew: false))
                         {
                             foreach (var entry in packageReferencesToUpdateReinstall)
                             {
