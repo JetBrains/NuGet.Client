@@ -13,17 +13,45 @@ using NuGet.Versioning;
 
 namespace NuGet.Packaging
 {
+    public static class PackagesConfigWriterFactory
+    {
+        public static Func<string, bool, IFrameworkNameProvider, PackagesConfigWriter> CreatorFromFile { get; set; } =
+            (fullPath, createNew, frameworkMappings) => new PackagesConfigWriter(fullPath, createNew, frameworkMappings);
+        public static Func<Stream, bool, IFrameworkNameProvider, PackagesConfigWriter> CreatorFromStream { get; set; } =
+            (stream, createNew, frameworkMappings) => new PackagesConfigWriter(stream, createNew, frameworkMappings);
+
+        public static PackagesConfigWriter Create(string fullPath, bool createNew)
+        {
+            return CreatorFromFile(fullPath, createNew, DefaultFrameworkNameProvider.Instance);
+        }
+
+        public static PackagesConfigWriter Create(string fullPath, bool createNew, IFrameworkNameProvider frameworkMappings)
+        {
+            return CreatorFromFile(fullPath, createNew, frameworkMappings);
+        }
+
+        public static PackagesConfigWriter Create(Stream stream, bool createNew)
+        {
+            return CreatorFromStream(stream, createNew, DefaultFrameworkNameProvider.Instance);
+        }
+
+        public static PackagesConfigWriter Create(Stream stream, bool createNew, IFrameworkNameProvider frameworkMappings)
+        {
+            return CreatorFromStream(stream, createNew, frameworkMappings);
+        }
+    }
+
     /// <summary>
     /// Writes the packages.config XML file to a stream
     /// </summary>
     public class PackagesConfigWriter : IDisposable
     {
-        private readonly Stream _stream;
-        private readonly string _filePath;
-        private bool _disposed;
-        private NuGetVersion _minClientVersion;
-        private IFrameworkNameProvider _frameworkMappings;
-        private XDocument _xDocument;
+        protected readonly Stream _stream;
+        protected readonly string _filePath;
+        protected bool _disposed;
+        protected NuGetVersion _minClientVersion;
+        protected IFrameworkNameProvider _frameworkMappings;
+        protected XDocument _xDocument;
 
         /// <summary>
         /// Create a packages.config writer using file path
@@ -55,7 +83,7 @@ namespace NuGet.Packaging
             {
                 CreateDefaultXDocument();
             }
-            // Load the existing packages.config file. 
+            // Load the existing packages.config file.
             else
             {
                 try
@@ -103,7 +131,7 @@ namespace NuGet.Packaging
             {
                 CreateDefaultXDocument();
             }
-            // Load the existing packages.config file. 
+            // Load the existing packages.config file.
             else
             {
                 _xDocument = XDocument.Load(stream);
@@ -114,7 +142,7 @@ namespace NuGet.Packaging
         /// Write a minimum client version to packages.config
         /// </summary>
         /// <param name="version">Minumum version of the client required to parse and use this file.</param>
-        public void WriteMinClientVersion(NuGetVersion version)
+        public virtual void WriteMinClientVersion(NuGetVersion version)
         {
             if (_minClientVersion != null)
             {
@@ -139,7 +167,7 @@ namespace NuGet.Packaging
         /// <param name="packageId">Package Id</param>
         /// <param name="version">Package Version</param>
         /// <param name="targetFramework">Package targetFramework that's compatible with current project</param>
-        public void AddPackageEntry(string packageId, NuGetVersion version, NuGetFramework targetFramework)
+        public virtual void AddPackageEntry(string packageId, NuGetVersion version, NuGetFramework targetFramework)
         {
             if (packageId == null)
             {
@@ -162,7 +190,7 @@ namespace NuGet.Packaging
         /// <summary>
         /// Adds a basic package entry to the file
         /// </summary>
-        public void AddPackageEntry(PackageIdentity identity, NuGetFramework targetFramework)
+        public virtual void AddPackageEntry(PackageIdentity identity, NuGetFramework targetFramework)
         {
             var entry = new PackageReference(identity, targetFramework);
 
@@ -173,7 +201,7 @@ namespace NuGet.Packaging
         /// Adds a package entry to the file
         /// </summary>
         /// <param name="entry">Package reference entry</param>
-        public void AddPackageEntry(PackageReference entry)
+        public virtual void AddPackageEntry(PackageReference entry)
         {
             if (entry == null)
             {
@@ -208,7 +236,7 @@ namespace NuGet.Packaging
         /// <summary>
         /// Update a package entry to the file
         /// </summary>
-        public void UpdatePackageEntry(PackageReference oldEntry, PackageReference newEntry)
+        public virtual void UpdatePackageEntry(PackageReference oldEntry, PackageReference newEntry)
         {
             if (oldEntry == null)
             {
@@ -246,7 +274,7 @@ namespace NuGet.Packaging
         /// <summary>
         /// Update a package entry using the original entry as a base if it exists.
         /// </summary>
-        public void UpdateOrAddPackageEntry(XDocument originalConfig, PackageReference newEntry)
+        public virtual void UpdateOrAddPackageEntry(XDocument originalConfig, PackageReference newEntry)
         {
             if (originalConfig == null)
             {
@@ -293,7 +321,7 @@ namespace NuGet.Packaging
         /// <param name="packageId">Package Id</param>
         /// <param name="version">Package version</param>
         /// <param name="targetFramework">Package targetFramework</param>
-        public void RemovePackageEntry(string packageId, NuGetVersion version, NuGetFramework targetFramework)
+        public virtual void RemovePackageEntry(string packageId, NuGetVersion version, NuGetFramework targetFramework)
         {
             if (packageId == null)
             {
@@ -318,7 +346,7 @@ namespace NuGet.Packaging
         /// </summary>
         /// <param name="identity">Package identity</param>
         /// <param name="targetFramework">Package targetFramework</param>
-        public void RemovePackageEntry(PackageIdentity identity, NuGetFramework targetFramework)
+        public virtual void RemovePackageEntry(PackageIdentity identity, NuGetFramework targetFramework)
         {
             var entry = new PackageReference(identity, targetFramework);
 
@@ -329,7 +357,7 @@ namespace NuGet.Packaging
         /// Removes a package entry from the file
         /// </summary>
         /// <param name="entry">Package reference entry</param>
-        public void RemovePackageEntry(PackageReference entry)
+        public virtual void RemovePackageEntry(PackageReference entry)
         {
             if (entry == null)
             {
@@ -357,7 +385,7 @@ namespace NuGet.Packaging
             }
         }
 
-        private XElement CreateXElementForPackageEntry(PackageReference entry)
+        protected virtual XElement CreateXElementForPackageEntry(PackageReference entry)
         {
             var node = new XElement(XName.Get(PackagesConfig.PackageNodeName));
 
@@ -394,7 +422,7 @@ namespace NuGet.Packaging
             return node;
         }
 
-        private void CreateDefaultXDocument()
+        protected virtual void CreateDefaultXDocument()
         {
             var document = new XDocument();
             var packagesNode = new XElement(XName.Get(PackagesConfig.PackagesNodeName));
@@ -403,7 +431,7 @@ namespace NuGet.Packaging
             _xDocument = document;
         }
 
-        private XElement EnsurePackagesNode()
+        protected virtual XElement EnsurePackagesNode()
         {
             var packagesNode = _xDocument.Element(XName.Get(PackagesConfig.PackagesNodeName));
 
@@ -416,7 +444,7 @@ namespace NuGet.Packaging
             return packagesNode;
         }
 
-        private XElement FindMatchingPackageNode(PackageReference entry, XElement packagesNode)
+        protected virtual XElement FindMatchingPackageNode(PackageReference entry, XElement packagesNode)
         {
             XElement matchingIdNode;
             bool hasMatchingNode = PackagesConfig.HasAttributeValue(packagesNode, PackagesConfig.IdAttributeName,
@@ -442,7 +470,7 @@ namespace NuGet.Packaging
             return null;
         }
 
-        private XElement ReplacePackageAttributes(XElement existingNode, PackageReference newEntry)
+        protected virtual XElement ReplacePackageAttributes(XElement existingNode, PackageReference newEntry)
         {
             var newEntryNode = CreateXElementForPackageEntry(newEntry);
 
@@ -488,7 +516,7 @@ namespace NuGet.Packaging
             return existingNode;
         }
 
-        private void SortPackageNodes(XElement packagesNode)
+        protected virtual void SortPackageNodes(XElement packagesNode)
         {
             var newPackagesNode = new XElement(XName.Get(PackagesConfig.PackagesNodeName),
                 from minClient in packagesNode.Attributes(XName.Get(PackagesConfig.MinClientAttributeName))
@@ -501,7 +529,7 @@ namespace NuGet.Packaging
             packagesNode.ReplaceWith(newPackagesNode);
         }
 
-        private void WriteFile()
+        protected virtual void WriteFile()
         {
             // Clear the content of the old stream
             _stream.Seek(0, SeekOrigin.Begin);
@@ -515,7 +543,7 @@ namespace NuGet.Packaging
         /// Write the XDocument to the packages.config and disallow further changes.
         /// </summary>
         /// <param name="fullPath">the full path to packages.config file</param>
-        public void WriteFile(string fullPath)
+        public virtual void WriteFile(string fullPath)
         {
             try
             {
@@ -586,7 +614,7 @@ namespace NuGet.Packaging
         /// <summary>
         /// Write the XDocument to the stream and close it to disallow further changes.
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
