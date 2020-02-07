@@ -125,14 +125,14 @@ namespace NuGet.ProjectManagement
                             }
 
                             // Higher version of an installed package is being installed. Remove old and add new
-                            using (var writer = new PackagesConfigWriter(FullPath, createNew: false))
+                            using (var writer = PackagesConfigWriterFactory.Create(FullPath, createNew: false))
                             {
                                 writer.UpdatePackageEntry(packageReferenceWithSameId, newPackageReference);
                             }
                         }
                         else
                         {
-                            using (var writer = new PackagesConfigWriter(FullPath, createNew: false))
+                            using (var writer = PackagesConfigWriterFactory.Create(FullPath, createNew: false))
                             {
 
                                 if (nuGetProjectContext.OriginalPackagesConfig == null)
@@ -151,7 +151,7 @@ namespace NuGet.ProjectManagement
                     // Create new packages.config file and add the package entry
                     else
                     {
-                        using (var writer = new PackagesConfigWriter(FullPath, createNew: true))
+                        using (var writer = PackagesConfigWriterFactory.Create(FullPath, createNew: true))
                         {
                             if (nuGetProjectContext.OriginalPackagesConfig == null)
                             {
@@ -206,7 +206,7 @@ namespace NuGet.ProjectManagement
                 if (installedPackagesList.Any())
                 {
                     // Matching packageReference is found and is the only entry
-                    // Then just delete the packages.config file 
+                    // Then just delete the packages.config file
                     if (installedPackagesList.Count == 1 && nuGetProjectContext.ActionType == NuGetActionType.Uninstall)
                     {
                         FileSystemUtility.DeleteFile(FullPath, nuGetProjectContext);
@@ -214,7 +214,7 @@ namespace NuGet.ProjectManagement
                     else
                     {
                         // Remove the package reference from packages.config file
-                        using (var writer = new PackagesConfigWriter(FullPath, createNew: false))
+                        using (var writer = PackagesConfigWriterFactory.Create(FullPath, createNew: false))
                         {
                             writer.RemovePackageEntry(packageReference);
                         }
