@@ -13,4 +13,9 @@
 
   <!-- Additional props -->
   <Import Project="common.project.props"/>
+
+  <!-- JB probs -->
+  <PropertyGroup>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
 </Project>
