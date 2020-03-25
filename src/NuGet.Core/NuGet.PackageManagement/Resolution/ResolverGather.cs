@@ -584,6 +584,7 @@ namespace NuGet.PackageManagement
 
         private async Task InitializeResourcesAsync(CancellationToken token)
         {
+            var ignoreFailedSources = _context.ResolutionContext.SourceCacheContext.IgnoreFailedSources;
             var currentSource = string.Empty;
             try
             {
@@ -602,7 +603,23 @@ namespace NuGet.PackageManagement
                 {
                     if (!depResources.ContainsKey(source))
                     {
-                        var task = Task.Run(async () => await source.GetResourceAsync<DependencyInfoResource>(token));
+                        var task = Task.Run(async () =>
+                        {
+                            try
+                            {
+                                return await source.GetResourceAsync<DependencyInfoResource>(token);
+                            }
+                            catch (Exception e)
+                            {
+                                if (ignoreFailedSources)
+                                {
+                                    _context.Log.LogWarning(e.ToString());
+                                    return null;
+                                }
+
+                                throw;
+                            }
+                        });
 
                         getResourceTasks.Add(task);
                         depResources.Add(source, task);
@@ -626,7 +643,7 @@ namespace NuGet.PackageManagement
                     {
                         var resource = await depResources[source];
 
-                        if (!_primaryResources.Any(sourceResource => sourceResource.Source.PackageSource.Equals(source)))
+                        if (resource != null && !_primaryResources.Any(sourceResource => sourceResource.Source.PackageSource.Equals(source)))
                         {
                             _primaryResources.Add(new SourceResource(source, resource));
                         }
@@ -640,13 +657,12 @@ namespace NuGet.PackageManagement
                 {
                     if (uniqueAllSources.Add(source.PackageSource))
                     {
-                        //var resource = await depResources[source];
-                        var resource = depResources[source];
+                        var resource = await depResources[source];
 
-                        if (!_allResources.Any(sourceResource => sourceResource.Source.PackageSource.Equals(source)))
+                        if (resource != null && !_allResources.Any(sourceResource => sourceResource.Source.PackageSource.Equals(source)))
                         {
                             currentSource = source.PackageSource.Source;
-                            _allResources.Add(new SourceResource(source, resource.Result));
+                            _allResources.Add(new SourceResource(source, resource));
                         }
                     }
                 }
