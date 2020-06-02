@@ -12,7 +12,7 @@ using NuGet.Common;
 
 namespace NuGet.Configuration
 {
-    internal sealed class SettingsFile
+    public sealed class SettingsFile
     {
         /// <summary>
         /// Full path to the settings file
