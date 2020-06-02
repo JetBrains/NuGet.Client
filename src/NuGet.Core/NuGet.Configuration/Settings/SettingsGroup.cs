@@ -89,7 +89,7 @@ namespace NuGet.Configuration
             }
         }
 
-        internal virtual bool Add(T setting)
+        public virtual bool Add(T setting)
         {
             if (setting == null)
             {
@@ -129,7 +129,7 @@ namespace NuGet.Configuration
             return false;
         }
 
-        internal virtual void Remove(T setting)
+        public virtual void Remove(T setting)
         {
             if (setting == null)
             {
