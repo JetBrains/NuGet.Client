@@ -202,7 +202,7 @@ namespace NuGet.PackageManagement
             // Restore
             var specs = await project.GetPackageSpecsAsync(context);
             var spec = specs.Single(e => e.RestoreMetadata.ProjectStyle == ProjectStyle.PackageReference
-                || e.RestoreMetadata.ProjectStyle == ProjectStyle.ProjectJson); // Do not restore global tools Project Style in VS. 
+                || e.RestoreMetadata.ProjectStyle == ProjectStyle.ProjectJson); // Do not restore global tools Project Style in VS.
 
             var result = await PreviewRestoreAsync(
                 solutionManager,
@@ -235,7 +235,7 @@ namespace NuGet.PackageManagement
                 // Nothing to restore
                 return false;
             }
-            // NO Op will be checked in the restore command 
+            // NO Op will be checked in the restore command
             return true;
         }
 
@@ -266,7 +266,7 @@ namespace NuGet.PackageManagement
             List<IAssetsLogMessage> allAdditionalMessages = null;
 
             var projects = (await solutionManager.GetNuGetProjectsAsync()).OfType<IDependencyGraphProject>().ToList();
-            var knownProjects = projects.Select(e => e.MSBuildProjectPath).ToHashSet(PathUtility.GetStringComparerBasedOnOS());
+            var knownProjects = new HashSet<string>(projects.Select(e => e.MSBuildProjectPath), PathUtility.GetStringComparerBasedOnOS());
 
             for (var i = 0; i < projects.Count; i++)
             {

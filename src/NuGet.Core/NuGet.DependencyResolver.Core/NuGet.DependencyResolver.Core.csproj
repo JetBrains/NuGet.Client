@@ -40,6 +40,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Import Project="$(BuildCommonDirectory)common.targets"/>
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+  <Import Project="$(BuildCommonDirectory)common.targets" />
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>
