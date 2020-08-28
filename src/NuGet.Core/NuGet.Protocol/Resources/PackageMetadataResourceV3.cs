@@ -87,7 +87,7 @@ namespace NuGet.Protocol
             var metadataCache = new MetadataReferenceCache();
             var registrationUri = _regResource.GetUri(packageId);
 
-            var (registrationIndex, httpSourceCacheContext) = await LoadRegistrationIndexAsync(
+            var tuple = await LoadRegistrationIndexAsync(
                 _client,
                 registrationUri,
                 packageId,
@@ -95,6 +95,9 @@ namespace NuGet.Protocol
                 httpSourceResult => DeserializeStreamDataAsync<RegistrationIndex>(httpSourceResult.Stream, token),
                 log,
                 token);
+
+            var registrationIndex = tuple.Item1;
+            var httpSourceCacheContext = tuple.Item2;
 
             if (registrationIndex == null)
             {
@@ -175,7 +178,7 @@ namespace NuGet.Protocol
         /// <param name="log">Logger Instance.</param>
         /// <param name="token">Cancellation token.</param>
         /// <returns></returns>
-        private async Task<ValueTuple<RegistrationIndex, HttpSourceCacheContext>> LoadRegistrationIndexAsync(
+        private async Task<Tuple<RegistrationIndex, HttpSourceCacheContext>> LoadRegistrationIndexAsync(
             HttpSource httpSource,
             Uri registrationUri,
             string packageId,
@@ -201,11 +204,11 @@ namespace NuGet.Protocol
                 log,
                 token);
 
-            return new ValueTuple<RegistrationIndex, HttpSourceCacheContext>(index,httpSourceCacheContext);
+            return new Tuple<RegistrationIndex, HttpSourceCacheContext>(index,httpSourceCacheContext);
         }
 
         /// <summary>
-        /// Process RegistrationIndex 
+        /// Process RegistrationIndex
         /// </summary>
         /// <param name="httpSource">Httpsource instance.</param>
         /// <param name="rangeUri">Paged registration index url address.</param>
