@@ -46,13 +46,14 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
+<!--    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.0.0" />-->
   </ItemGroup>
 
   <ItemGroup Condition=" '$(IsCore)' == 'true' ">
     <PackageReference Include="System.Dynamic.Runtime" />
     <!-- TODO - remove this when temporary patching is no longer necessary. See https://github.com/nuget/home/issues/8952 -->
-    <PackageReference Include="System.Security.Cryptography.Pkcs" />
-    <PackageReference Include="System.Security.Cryptography.Cng" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs"/>
+    <PackageReference Include="System.Security.Cryptography.Cng"/>
   </ItemGroup>
 
   <ItemGroup>
