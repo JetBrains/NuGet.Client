@@ -69,7 +69,7 @@ namespace NuGet.Protocol
 
                 tries++;
                 success = true;
-
+#pragma warning disable
                 using (var requestMessage = request.RequestFactory())
                 {
                     var stopwatches = new List<Stopwatch>(2);

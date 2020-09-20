@@ -97,7 +97,7 @@ namespace NuGet.Protocol
                     (configuration.PromptOn403 && response.StatusCode == HttpStatusCode.Forbidden))
                 {
                     IList<Stopwatch> stopwatches = null;
-
+#pragma warning disable
                     if (request.Properties.TryGetValue(HttpRetryHandler.StopwatchPropertyName, out var value))
                     {
                         stopwatches = value as IList<Stopwatch>;
