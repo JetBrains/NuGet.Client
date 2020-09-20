@@ -6,7 +6,7 @@
     <PackageId>JetBrains.NuGet.Protocol</PackageId>
     <TargetFrameworks>$(TargetFrameworksLibraryForSigning)</TargetFrameworks>
     <TargetFramework />
-    <NoWarn>$(NoWarn);CS1591;CS1573;CS0012;CA2211;CA1308</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;CS1573;CS0012;CA2211;CA1308;RS0016;RS0017</NoWarn>
     <PackageTags>nuget protocol</PackageTags>
     <PackProject>true</PackProject>
     <Shipping>true</Shipping>
