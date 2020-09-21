@@ -5,11 +5,8 @@ using System;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class FrameworkException : Exception
     {
         public FrameworkException(string message)
