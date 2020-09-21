@@ -8,11 +8,8 @@ using System.Linq;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class CompatibilityProvider : IFrameworkCompatibilityProvider
     {
         private readonly IFrameworkNameProvider _mappings;
@@ -48,7 +45,7 @@ namespace NuGet.Frameworks
             // check the cache for a solution
             var cacheKey = new CompatibilityCacheKey(target, candidate);
 
-            bool? result = _cache.GetOrAdd(cacheKey, (Func<CompatibilityCacheKey, bool>)((key) 
+            bool? result = _cache.GetOrAdd(cacheKey, (Func<CompatibilityCacheKey, bool>)((key)
                 => { return IsCompatibleCore(target, candidate) == true; }));
 
             return result == true;

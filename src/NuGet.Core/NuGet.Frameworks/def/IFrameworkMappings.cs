@@ -11,11 +11,8 @@ namespace NuGet.Frameworks
     /// mirrored so that the IFrameworkMappings implementation only needs to provide the minimum amount of
     /// mappings.
     /// </summary>
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     interface IFrameworkMappings
     {
         /// <summary>
@@ -60,8 +57,8 @@ namespace NuGet.Frameworks
         IEnumerable<OneWayCompatibilityMappingEntry> CompatibilityMappings { get; }
 
         /// <summary>
-        /// Ordered list of framework identifiers. The first framework in the list will be preferred over other 
-        /// framework identifiers. This is enable better tie breaking in scenarios where legacy frameworks are 
+        /// Ordered list of framework identifiers. The first framework in the list will be preferred over other
+        /// framework identifiers. This is enable better tie breaking in scenarios where legacy frameworks are
         /// equivalently compatible to a new framework.
         /// Example: UAP10.0 &#8210;&gt; win81, wpa81
         /// </summary>

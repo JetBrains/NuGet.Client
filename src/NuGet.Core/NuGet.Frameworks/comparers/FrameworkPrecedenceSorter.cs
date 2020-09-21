@@ -8,11 +8,8 @@ namespace NuGet.Frameworks
     /// <summary>
     /// Sorts frameworks according to the framework mappings
     /// </summary>
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class FrameworkPrecedenceSorter : IComparer<NuGetFramework>
     {
         private readonly IFrameworkNameProvider _mappings;

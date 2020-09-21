@@ -3,11 +3,8 @@
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     interface IFrameworkCompatibilityProvider
     {
         /// <summary>

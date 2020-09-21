@@ -6,11 +6,8 @@ using System.Collections.Generic;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     static class NuGetFrameworkExtensions
     {
         /// <summary>

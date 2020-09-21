@@ -6,11 +6,8 @@ using System.Globalization;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class OneWayCompatibilityMappingEntry : IEquatable<OneWayCompatibilityMappingEntry>
     {
         private readonly FrameworkRange _targetFramework;

@@ -8,11 +8,8 @@ using System.Linq;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class FrameworkNameProvider : IFrameworkNameProvider
     {
         private static readonly HashSet<NuGetFramework> EmptyFrameworkSet = new HashSet<NuGetFramework>();
@@ -191,8 +188,8 @@ namespace NuGet.Frameworks
         {
             var versionString = string.Empty;
 
-            if (version != null 
-                && (version.Major > 0 
+            if (version != null
+                && (version.Major > 0
                     || version.Minor > 0
                     || version.Build > 0
                     || version.Revision > 0))
@@ -321,7 +318,7 @@ namespace NuGet.Frameworks
                 {
                     result.Add(framework);
 
-                    // Add in the existing framework (included here) and all equivalent frameworks  
+                    // Add in the existing framework (included here) and all equivalent frameworks
                     var equivalentFrameworks = GetAllEquivalentFrameworks(framework);
 
                     UnionWith(existingFrameworks, equivalentFrameworks);
@@ -331,13 +328,13 @@ namespace NuGet.Frameworks
             return result;
         }
 
-        /// <summary>  
-        /// Get all equivalent frameworks including the given framework  
-        /// </summary>  
+        /// <summary>
+        /// Get all equivalent frameworks including the given framework
+        /// </summary>
         private HashSet<NuGetFramework> GetAllEquivalentFrameworks(NuGetFramework framework)
         {
-            // Loop through the frameworks, all frameworks that are not in results yet   
-            // will be added to toProcess to get the equivalent frameworks  
+            // Loop through the frameworks, all frameworks that are not in results yet
+            // will be added to toProcess to get the equivalent frameworks
             var toProcess = new Stack<NuGetFramework>();
             var results = new HashSet<NuGetFramework>();
 
@@ -822,7 +819,7 @@ namespace NuGet.Frameworks
                             foreach (var framework in eqFrameworks)
                             {
                                 remaining.Push(framework);
-                            }   
+                            }
                         }
                     }
 

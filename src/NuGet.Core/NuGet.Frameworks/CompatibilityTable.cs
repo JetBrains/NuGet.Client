@@ -9,11 +9,8 @@ namespace NuGet.Frameworks
     /// <summary>
     /// Creates a table of compatible frameworks.
     /// </summary>
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class CompatibilityTable
     {
         private readonly IFrameworkNameProvider _mappings;
