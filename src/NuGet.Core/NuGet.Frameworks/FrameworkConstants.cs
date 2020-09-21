@@ -6,11 +6,8 @@ using System.Collections.Generic;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     static class FrameworkConstants
     {
         public static readonly Version EmptyVersion = new Version(0, 0, 0, 0);
