@@ -15,14 +15,11 @@ using FallbackList = System.Collections.Generic.IReadOnlyList<NuGet.Frameworks.N
 namespace NuGet.Frameworks
 {
     /// <summary>
-    /// AssetTargetFallbackFramework only fallback when zero assets are selected. These do not 
+    /// AssetTargetFallbackFramework only fallback when zero assets are selected. These do not
     /// auto fallback during GetNearest as FallbackFramework would.
     /// </summary>
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class AssetTargetFallbackFramework : NuGetFramework, IEquatable<AssetTargetFallbackFramework>
     {
         private readonly FallbackList _fallback;
