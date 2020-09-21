@@ -11,11 +11,8 @@ namespace NuGet.Frameworks
     /// <summary>
     /// Reduces a list of frameworks into the smallest set of frameworks required.
     /// </summary>
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class FrameworkReducer
     {
         private readonly IFrameworkNameProvider _mappings;
@@ -123,7 +120,7 @@ namespace NuGet.Frameworks
 
                         if (reduced.Count() > 1)
                         {
-                            // For scenarios where we are unable to decide between PCLs, choose the PCL with the 
+                            // For scenarios where we are unable to decide between PCLs, choose the PCL with the
                             // least frameworks. Less frameworks means less compatibility which means it is nearer to the target.
                             reduced = new NuGetFramework[] { GetBestPCL(reduced) };
                         }
@@ -343,7 +340,7 @@ namespace NuGet.Frameworks
             // each sub-framework vote on which PCL is nearest.
             var subFrameworks = ExplodePortableFramework(framework);
 
-            // reduce the sub frameworks - this would only have an effect if the PCL is 
+            // reduce the sub frameworks - this would only have an effect if the PCL is
             // poorly formed and contains duplicates such as portable-win8+win81
             subFrameworks = ReduceEquivalent(subFrameworks);
 
@@ -459,7 +456,7 @@ namespace NuGet.Frameworks
                 return false;
             }
 
-            // If both frameworks have the same number of frameworks take the framework that has the highest 
+            // If both frameworks have the same number of frameworks take the framework that has the highest
             // overall set of framework versions
 
             // Find Frameworks that both profiles have in common
@@ -515,7 +512,7 @@ namespace NuGet.Frameworks
                 }
             }
 
-            // In the very rare case that both frameworks are still equal, we have to pick one. 
+            // In the very rare case that both frameworks are still equal, we have to pick one.
             // There is nothing but we need to be deterministic, so compare the profiles as strings.
             if (StringComparer.OrdinalIgnoreCase.Compare(considering.GetShortFolderName(_mappings), current.GetShortFolderName(_mappings)) < 0)
             {

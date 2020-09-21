@@ -8,11 +8,8 @@ namespace NuGet.Frameworks
     /// <summary>
     /// Use this to expose the list of target frameworks an object can be used for.
     /// </summary>
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     interface IFrameworkTargetable
     {
         /// <summary>
