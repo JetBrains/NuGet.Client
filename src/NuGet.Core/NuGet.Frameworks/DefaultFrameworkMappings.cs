@@ -7,11 +7,8 @@ using System.Linq;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     sealed class DefaultFrameworkMappings : IFrameworkMappings
     {
         private static Lazy<KeyValuePair<string, string>[]> IdentifierSynonymsLazy = new Lazy<KeyValuePair<string, string>[]>(() =>
