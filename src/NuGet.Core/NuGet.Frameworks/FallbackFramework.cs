@@ -14,11 +14,8 @@ using FallbackList = System.Collections.Generic.IReadOnlyList<NuGet.Frameworks.N
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     class FallbackFramework : NuGetFramework, IEquatable<FallbackFramework>
     {
         /// <summary>

@@ -7,11 +7,8 @@ using System.Linq;
 
 namespace NuGet.Frameworks
 {
-#if NUGET_FRAMEWORKS_INTERNAL
-    internal
-#else
-    public
-#endif
+
+public
     static class FrameworkNameHelpers
     {
         public static string GetPortableProfileNumberString(int profileNumber)
