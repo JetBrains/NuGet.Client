@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
 using NuGet.Common;
@@ -12,11 +13,14 @@ using NuGet.Frameworks;
 using NuGet.LibraryModel;
 using NuGet.ProjectModel;
 using NuGet.Shared;
+using NuGet.Versioning;
 
 namespace NuGet.Commands
 {
     public static class SpecValidationUtility
     {
+        public static NuGetVersion SdkVersion { get; set; }
+
         /// <summary>
         /// Validate a dg file. This will throw a RestoreSpecException if there are errors.
         /// </summary>
@@ -83,7 +87,9 @@ namespace NuGet.Commands
             }
         }
 
-        public static void ValidateProjectSpec(PackageSpec spec)
+        private static void ValidateProjectSpecV3(PackageSpec spec) => SpecValidationUtilityV3.ValidateProjectSpec(spec);
+
+        private static void ValidateProjectSpecV5(PackageSpec spec)
         {
             ValidateProjectSpec(spec, NullLogger.Instance);
         }
@@ -139,6 +145,14 @@ namespace NuGet.Commands
                         break;
                 }
             }
+
+        }
+
+        public static void ValidateProjectSpec(PackageSpec spec)
+        { if (SdkVersion != null && SdkVersion.Major < 5)
+                ValidateProjectSpecV3(spec);
+            else
+                ValidateProjectSpecV5(spec);
         }
 
         private static void ValidateFrameworks(PackageSpec spec, IEnumerable<string> files, ILogger logger)
