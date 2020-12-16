@@ -25,6 +25,8 @@ namespace NuGet.PackageManagement
     /// </summary>
     public static class DependencyGraphRestoreUtility
     {
+        public static IPreLoadedRestoreRequestProvider PreLoadedRestoreRequestProvider { get; set; }
+
         /// <summary>
         /// Restore a solution and cache the dg spec to context.
         /// </summary>
@@ -216,7 +218,7 @@ namespace NuGet.PackageManagement
                 // Nothing to restore
                 return false;
             }
-            // NO Op will be checked in the restore command 
+            // NO Op will be checked in the restore command
             return true;
         }
 
@@ -332,9 +334,9 @@ namespace NuGet.PackageManagement
                 caching.AddSourceRepository(source);
             }
 
-            var dgProvider = new DependencyGraphSpecRequestProvider(providerCache, dgFile, context.Settings);
+            var dgProvider = PreLoadedRestoreRequestProvider ?? new DependencyGraphSpecRequestProvider(providerCache, dgFile, context.Settings);
 
-            var restoreContext = new RestoreArgs()
+            var restoreContext = new RestoreArgs
             {
                 CacheContext = sourceCacheContext,
                 PreLoadedRequestProviders = new List<IPreLoadedRestoreRequestProvider>() { dgProvider },
