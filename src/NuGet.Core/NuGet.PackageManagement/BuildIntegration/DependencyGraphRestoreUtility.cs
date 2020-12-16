@@ -25,6 +25,8 @@ namespace NuGet.PackageManagement
     /// </summary>
     public static class DependencyGraphRestoreUtility
     {
+        public static IPreLoadedRestoreRequestProvider PreLoadedRestoreRequestProvider { get; set; }
+
         /// <summary>
         /// Restore a solution and cache the dg spec to context.
         /// </summary>
@@ -274,7 +276,7 @@ namespace NuGet.PackageManagement
             // Restore
             var specs = await project.GetPackageSpecsAsync(context);
             var spec = specs.Single(e => e.RestoreMetadata.ProjectStyle == ProjectStyle.PackageReference
-                || e.RestoreMetadata.ProjectStyle == ProjectStyle.ProjectJson); // Do not restore global tools Project Style in VS. 
+                || e.RestoreMetadata.ProjectStyle == ProjectStyle.ProjectJson); // Do not restore global tools Project Style in VS.
 
             var result = await PreviewRestoreAsync(
                 solutionManager,
@@ -306,7 +308,7 @@ namespace NuGet.PackageManagement
                 // Nothing to restore
                 return false;
             }
-            // NO Op will be checked in the restore command 
+            // NO Op will be checked in the restore command
             return true;
         }
 
@@ -424,9 +426,9 @@ namespace NuGet.PackageManagement
                 caching.AddSourceRepository(source);
             }
 
-            var dgProvider = new DependencyGraphSpecRequestProvider(providerCache, dgFile, context.Settings);
+            var dgProvider = PreLoadedRestoreRequestProvider ?? new DependencyGraphSpecRequestProvider(providerCache, dgFile, context.Settings);
 
-            var restoreContext = new RestoreArgs()
+            var restoreContext = new RestoreArgs
             {
                 CacheContext = sourceCacheContext,
                 PreLoadedRequestProviders = new List<IPreLoadedRestoreRequestProvider>() { dgProvider },
