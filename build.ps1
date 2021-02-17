@@ -59,7 +59,7 @@ param (
 
 If (-Not $SkipDelaySigning)
 {
-    & "$PSScriptRoot\scripts\utils\DisableStrongNameVerification.ps1" -skipNoOpMessage
+    #& "$PSScriptRoot\scripts\utils\DisableStrongNameVerification.ps1" -skipNoOpMessage
 }
 
 if (-not $Configuration) {
