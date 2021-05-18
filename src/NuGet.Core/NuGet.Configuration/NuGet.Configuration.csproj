@@ -5,7 +5,7 @@
   <PropertyGroup>
     <PackageId>JetBrains.NuGet.Configurations</PackageId>
     <Description>NuGet's client configuration settings implementation.</Description>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;RS0016</NoWarn>
     <TargetFrameworks>$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFrameworks Condition="'$(IsBuildOnlyXPLATProjects)' != 'true'">$(TargetFrameworks);net45</TargetFrameworks>
     <TargetFramework />
