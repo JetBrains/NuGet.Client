@@ -18,7 +18,7 @@
 
   <PropertyGroup Condition = " Exists($(StrongNameKey)) ">
     <SignAssembly>true</SignAssembly>
-    <PublicSign>true</PublicSign>
+    <PublicSign>false</PublicSign>
     <AssemblyOriginatorKeyFile Condition = " '$(AssemblyOriginatorKeyFile)' == '' ">$(StrongNameKey)</AssemblyOriginatorKeyFile>
     <StrongNameCert Condition="'$(StrongNameCert)' == ''">$(DefaultStrongNameCert)</StrongNameCert>
   </PropertyGroup>
