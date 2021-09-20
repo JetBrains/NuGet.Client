@@ -5,7 +5,7 @@
   <!-- Helper properties -->
   <PropertyGroup>
     <IsXPlat>false</IsXPlat>
-    <IsXPlat Condition=" $(MSBuildProjectFullPath.StartsWith('/')) == 'true' OR $(MSBuildProjectFullPath.StartsWith('\')) == 'true' ">true</IsXPlat>
+    <!-- <IsXPlat Condition=" $(MSBuildProjectFullPath.StartsWith('/')) == 'true' OR $(MSBuildProjectFullPath.StartsWith('\')) == 'true' ">true</IsXPlat> -->
   </PropertyGroup>
 
   <!-- Common -->
