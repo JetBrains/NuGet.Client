@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
         <MicrosoftBuildPackageVersion Condition="'$(MicrosoftBuildPackageVersion)' == ''">16.8.0</MicrosoftBuildPackageVersion>
-        <NewtonsoftJsonPackageVersion Condition="$(NewtonsoftJsonPackageVersion) == ''">13.0.1</NewtonsoftJsonPackageVersion>
+        <NewtonsoftJsonPackageVersion Condition="$(NewtonsoftJsonPackageVersion) == ''">9.0.1</NewtonsoftJsonPackageVersion>
         <MicrosoftWebXdtPackageVersion Condition="'$(MicrosoftWebXdtPackageVersion)' == ''">3.0.0</MicrosoftWebXdtPackageVersion>
         <SystemComponentModelCompositionPackageVersion Condition="'$(SystemComponentModelCompositionPackageVersion)' == ''">4.5.0</SystemComponentModelCompositionPackageVersion>
         <SystemPackagesVersion>4.3.0</SystemPackagesVersion>
