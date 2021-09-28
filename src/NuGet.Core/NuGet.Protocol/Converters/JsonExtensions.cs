@@ -24,7 +24,7 @@ namespace NuGet.Protocol
             {
                 new NuGetVersionConverter(),
                 new VersionInfoConverter(),
-                new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() },
+                new StringEnumConverter { CamelCaseText = true },
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal },
                 new FingerprintsConverter(),
                 new VersionRangeConverter()
