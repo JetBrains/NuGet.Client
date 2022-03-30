@@ -42,7 +42,7 @@ $BuildErrors = @()
 if ($ProcDump -eq $true -Or $env:CI -eq "true")
 {
     Invoke-BuildStep 'Configuring Process Dump Collection' {
-    
+
         Install-ProcDump
     } -ev +BuildErrors
 }
@@ -57,6 +57,11 @@ Invoke-BuildStep 'Installing .NET CLI' {
 
 Invoke-BuildStep 'Installing .NET SDKs for functional tests' {
     Install-DotNetSdksForTesting -Force:$Force
+} -ev +BuildErrors
+
+# Restoring tools required for build
+Invoke-BuildStep 'Restoring solution packages' {
+    Restore-SolutionPackages
 } -ev +BuildErrors
 
 Invoke-BuildStep 'Cleaning package cache' {
