@@ -43,7 +43,7 @@ Invoke-BuildStep 'Configuring git repo' {
 
 Invoke-BuildStep 'Installing .NET CLI' {
     Install-DotnetCLI -Force:$Force
-} -ev +BuildErrors
+}
 
 # Restoring tools required for build
 Invoke-BuildStep 'Restoring solution packages' {
