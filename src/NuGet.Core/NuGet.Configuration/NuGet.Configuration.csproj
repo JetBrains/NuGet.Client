@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>NuGet's configuration settings implementation.</Description>
+    <PackageId>JetBrains.NuGet.Configurations</PackageId>
     <NoWarn>$(NoWarn);CS1591;RS0041</NoWarn>
     <TargetFrameworks Condition="'$(IsVsixBuild)' != 'true'">$(TargetFrameworksLibrary)</TargetFrameworks>
     <TargetFramework Condition="'$(IsVsixBuild)' == 'true'">$(NETFXTargetFramework)</TargetFramework>
