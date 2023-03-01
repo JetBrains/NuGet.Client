@@ -40,7 +40,7 @@ namespace NuGet.Commands
         public ILogger Log { get; set; }
 
         /// <summary>
-        /// Sources to use for restore. This is not used if SourceRepositories contains the 
+        /// Sources to use for restore. This is not used if SourceRepositories contains the
         /// already built SourceRepository objects.
         /// </summary>
         public List<string> Sources { get; set; } = new List<string>();
@@ -127,7 +127,7 @@ namespace NuGet.Commands
         /// <summary>
         /// Uses either Sources or Settings, and then adds Fallback sources.
         /// </summary>
-        internal List<SourceRepository> GetEffectiveSources(ISettings settings, IList<PackageSource> dgSpecSources)
+        public List<SourceRepository> GetEffectiveSources(ISettings settings, IList<PackageSource> dgSpecSources)
         {
             if (settings == null)
             {
