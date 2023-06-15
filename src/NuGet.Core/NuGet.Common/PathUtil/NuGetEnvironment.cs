@@ -23,10 +23,10 @@ namespace NuGet.Common
 
         private static readonly Lazy<string> _getHome = new Lazy<string>(() => GetHome());
 
-        private static string _nuGetTempDirectory = null;
+        // private static string _nuGetTempDirectory = null;
         internal static string NuGetTempDirectory
         {
-            get { return _nuGetTempDirectory ??= GetNuGetTempDirectory(); }
+            get { return GetNuGetTempDirectory(); }
         }
 
         private static string GetNuGetTempDirectory()
@@ -48,7 +48,7 @@ namespace NuGet.Common
                     Directory.CreateDirectory(nuGetScratch);
                     if (chmod(nuGetScratch, 0b111_000_000) != 0)   //0b111_000_000 = 700 permissions
                     {
-                        // Another user created a folder pretending to be us! 
+                        // Another user created a folder pretending to be us!
                         var errno = Marshal.GetLastWin32Error(); // fetch the errno before running any other operation
                         throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                             Strings.UnableToSetNuGetTempFolderPermission,
