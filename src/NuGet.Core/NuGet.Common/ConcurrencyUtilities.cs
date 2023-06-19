@@ -4,6 +4,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -215,21 +216,20 @@ namespace NuGet.Common
                 options: UseDeleteOnClose ? FileOptions.DeleteOnClose : FileOptions.None);
         }
 
-        private static string _basePath;
+        // private static string _basePath;
         private static string BasePath
         {
             get
             {
-                if (_basePath != null)
-                {
-                    return _basePath;
-                }
+                // if (_basePath != null)
+                // {
+                    // return _basePath;
+                // }
 
-                _basePath = Path.Combine(NuGetEnvironment.GetFolderPath(NuGetFolderPath.Temp), "lock");
+                var basePath = Path.Combine(NuGetEnvironment.GetFolderPath(NuGetFolderPath.Temp), "lock");
+                Directory.CreateDirectory(basePath);
 
-                Directory.CreateDirectory(_basePath);
-
-                return _basePath;
+                return basePath;
             }
         }
 
