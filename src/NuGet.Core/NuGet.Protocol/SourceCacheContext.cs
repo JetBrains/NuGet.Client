@@ -106,6 +106,12 @@ namespace NuGet.Protocol.Core.Types
                     Interlocked.CompareExchange(ref _generatedTempFolder, newTempFolder, comparand: null);
                 }
 
+                if (RuntimeEnvironmentHelper.IsLinux && !Directory.Exists(_generatedTempFolder))
+                {
+                    // We use it for its side effect - NuGet Temp directory creation with right permissions
+                    NuGetEnvironment.GetFolderPath(NuGetFolderPath.Temp);
+                }
+
                 return _generatedTempFolder;
             }
 

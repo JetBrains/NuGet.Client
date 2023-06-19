@@ -4,6 +4,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -244,7 +245,7 @@ namespace NuGet.Common
             get
             {
                 string? basePath = _basePath;
-                if (basePath != null)
+                if (basePath != null && (!RuntimeEnvironmentHelper.IsLinux || Directory.Exists(_basePath)))
                 {
                     return basePath;
                 }
