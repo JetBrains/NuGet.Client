@@ -64,7 +64,7 @@ namespace NuGet.DependencyResolver
             return rootNode;
         }
 
-        private async ValueTask<GraphNode<RemoteResolveResult>> CreateGraphNodeAsync(
+        private async Task<GraphNode<RemoteResolveResult>> CreateGraphNodeAsync(
             LibraryRange libraryRange,
             NuGetFramework framework,
             string runtimeName,
@@ -99,7 +99,7 @@ namespace NuGet.DependencyResolver
             Debug.Assert(node.Item != null, "FindLibraryCached should return an unresolved item instead of null");
             MergeRuntimeDependencies(runtimeDependencies, node);
 
-            LightweightList<ValueTask<GraphNode<RemoteResolveResult>>> tasks = EvaluateDependencies(libraryRange, framework, runtimeName, runtimeGraph, predicate, outerEdge, transitiveCentralPackageVersions, node);
+            LightweightList<Task<GraphNode<RemoteResolveResult>>> tasks = EvaluateDependencies(libraryRange, framework, runtimeName, runtimeGraph, predicate, outerEdge, transitiveCentralPackageVersions, node);
 
             foreach (var task in tasks)
             {
@@ -110,9 +110,9 @@ namespace NuGet.DependencyResolver
 
             return node;
 
-            LightweightList<ValueTask<GraphNode<RemoteResolveResult>>> EvaluateDependencies(LibraryRange libraryRange, NuGetFramework framework, string runtimeName, RuntimeGraph runtimeGraph, Func<LibraryRange, (DependencyResult dependencyResult, LibraryDependency conflictingDependency)> predicate, GraphEdge<RemoteResolveResult> outerEdge, TransitiveCentralPackageVersions transitiveCentralPackageVersions, GraphNode<RemoteResolveResult> node)
+            LightweightList<Task<GraphNode<RemoteResolveResult>>> EvaluateDependencies(LibraryRange libraryRange, NuGetFramework framework, string runtimeName, RuntimeGraph runtimeGraph, Func<LibraryRange, (DependencyResult dependencyResult, LibraryDependency conflictingDependency)> predicate, GraphEdge<RemoteResolveResult> outerEdge, TransitiveCentralPackageVersions transitiveCentralPackageVersions, GraphNode<RemoteResolveResult> node)
             {
-                var tasks = new LightweightList<ValueTask<GraphNode<RemoteResolveResult>>>();
+                var tasks = new LightweightList<Task<GraphNode<RemoteResolveResult>>>();
                 // do not add nodes for all the centrally managed package versions to the graph
                 // they will be added only if they are transitive
                 foreach (var dependency in node.Item.Data.Dependencies)
