@@ -65,7 +65,7 @@ namespace NuGet.DependencyResolver
             return rootNode;
         }
 
-        private async ValueTask<GraphNode<RemoteResolveResult>> CreateGraphNodeAsync(
+        private async Task<GraphNode<RemoteResolveResult>> CreateGraphNodeAsync(
             LibraryRange libraryRange,
             NuGetFramework framework,
             string runtimeName,
