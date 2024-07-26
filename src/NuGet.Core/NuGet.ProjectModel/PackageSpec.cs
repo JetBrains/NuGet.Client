@@ -246,7 +246,8 @@ namespace NuGet.ProjectModel
                    EqualityUtility.OrderedEquals(Dependencies, other.Dependencies, dep => dep.Name, StringComparer.OrdinalIgnoreCase) &&
                    EqualityUtility.OrderedEquals(TargetFrameworks, other.TargetFrameworks, tfm => tfm.TargetAlias, StringComparer.OrdinalIgnoreCase) &&
                    EqualityUtility.EqualsWithNullCheck(RuntimeGraph, other.RuntimeGraph) &&
-                   EqualityUtility.EqualsWithNullCheck(RestoreMetadata, other.RestoreMetadata);
+                   EqualityUtility.EqualsWithNullCheck(RestoreMetadata, other.RestoreMetadata)
+                   && LegacySetCentralDeps == other.LegacySetCentralDeps;
         }
 
         /// <summary>
@@ -299,7 +300,8 @@ namespace NuGet.ProjectModel
                 IsDefaultVersion = IsDefaultVersion,
                 BuildOptions = BuildOptions?.Clone(),
 #pragma warning restore CS0612 // Type or member is obsolete
-                RestoreMetadata = RestoreMetadata?.Clone()
+                RestoreMetadata = RestoreMetadata?.Clone(),
+                LegacySetCentralDeps = LegacySetCentralDeps
             };
         }
 
