@@ -19,6 +19,10 @@ namespace NuGet.ProjectModel
     [DebuggerDisplay("{Name}")]
     public class PackageSpec
     {
+        // THIS IS THE VERY DIRTY HACK TO SUPPORT BOTH 6.0 AND 8.0 SDK BEHAVIOUR IN RIDER
+        // SHOULD BE REMOVED BY 2024.3
+        public bool LegacySetCentralDeps { get; set; } = false;
+
         public static readonly string PackageSpecFileName = "project.json";
         public static readonly NuGetVersion DefaultVersion = new NuGetVersion(1, 0, 0);
 

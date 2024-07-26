@@ -71,7 +71,7 @@ namespace NuGet.ProjectModel
                 SetDependencies(writer, packageSpec.Dependencies);
             }
 
-            SetFrameworks(writer, packageSpec.TargetFrameworks, hashing);
+            SetFrameworks(writer, packageSpec.TargetFrameworks, hashing, packageSpec.LegacySetCentralDeps);
 
             JsonRuntimeFormat.WriteRuntimeGraph(writer, packageSpec.RuntimeGraph);
         }
@@ -588,7 +588,7 @@ namespace NuGet.ProjectModel
             writer.WriteArrayEnd();
         }
 
-        private static void SetFrameworks(IObjectWriter writer, IList<TargetFrameworkInformation> frameworks, bool hashing)
+        private static void SetFrameworks(IObjectWriter writer, IList<TargetFrameworkInformation> frameworks, bool hashing, bool legacyVersionRangeFormat)
         {
             if (frameworks.Count > 0)
             {
@@ -599,7 +599,7 @@ namespace NuGet.ProjectModel
                     writer.WriteObjectStart(framework.FrameworkName.GetShortFolderName());
                     SetValueIfNotNull(writer, "targetAlias", framework.TargetAlias);
                     SetDependencies(writer, framework.Dependencies);
-                    SetCentralDependencies(writer, framework.CentralPackageVersions.Values, hashing);
+                    SetCentralDependencies(writer, framework.CentralPackageVersions.Values, hashing, legacyVersionRangeFormat);
                     SetImports(writer, framework.Imports);
                     SetValueIfTrue(writer, "assetTargetFallback", framework.AssetTargetFallback);
                     SetValueIfNotNull(writer, "secondaryFramework",
@@ -647,7 +647,13 @@ namespace NuGet.ProjectModel
             }
         }
 
-        private static void SetCentralDependencies(IObjectWriter writer, ICollection<CentralPackageVersion> centralPackageVersions, bool hashing)
+
+        private string GetLegacyVersionRangeString(CentralPackageVersion version)
+        {
+            return version.VersionRange.ToNormalizedString();
+        }
+
+        private static void SetCentralDependencies(IObjectWriter writer, ICollection<CentralPackageVersion> centralPackageVersions, bool hashing, bool legacyVersionRangeFormat)
         {
             if (!(centralPackageVersions.Count > 0))
             {
@@ -660,15 +666,28 @@ namespace NuGet.ProjectModel
             {
                 foreach (var dependency in centralPackageVersions)
                 {
-                    writer.WriteNameValue(name: dependency.Name, value: dependency.VersionRange.OriginalString ?? dependency.VersionRange.ToNormalizedString());
+                    if (legacyVersionRangeFormat)
+                    {
+                        writer.WriteNameValue(name: dependency.Name, value: dependency.VersionRange.ToNormalizedString());
+                    }
+                    else
+                    {
+                        writer.WriteNameValue(name: dependency.Name, value: dependency.VersionRange.OriginalString ?? dependency.VersionRange.ToNormalizedString());
+                    }
                 }
             }
             else
             {
                 foreach (var dependency in centralPackageVersions.OrderBy(dep => dep.Name, StringComparer.OrdinalIgnoreCase))
                 {
-                    writer.WriteNameValue(name: dependency.Name, value: dependency.VersionRange.OriginalString ?? dependency.VersionRange.ToNormalizedString());
-                }
+                    if (legacyVersionRangeFormat)
+                    {
+                        writer.WriteNameValue(name: dependency.Name, value: dependency.VersionRange.ToNormalizedString());
+                    }
+                    else
+                    {
+                        writer.WriteNameValue(name: dependency.Name, value: dependency.VersionRange.OriginalString ?? dependency.VersionRange.ToNormalizedString());
+                    }                }
             }
 
             writer.WriteObjectEnd();
