@@ -27,8 +27,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(SignWithNuGetKey)' == 'true' Or '$(SignWithMicrosoftKey)' == 'true'">
-    <DelaySign Condition="'$(IsXplat)' != 'true'">true</DelaySign>
-    <PublicSign Condition="'$(IsXplat)' == 'true'">true</PublicSign>
+    <DelaySign Condition="'$(IsXplat)' != 'true'">false</DelaySign>
+    <PublicSign Condition="'$(IsXplat)' == 'true'">false</PublicSign>
   </PropertyGroup>
 
   <ItemGroup>
