@@ -100,7 +100,7 @@
     <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="4.4.0" />
     <PackageVersion Include="System.Security.Cryptography.Xml" Version="$(SystemSecurityCryptographyXmlVersion)" />
     <PackageVersion Include="System.Text.Encoding.Extensions" Version="$(SystemPackagesVersion)" />
-    <PackageVersion Include="System.Text.Json" Version="$(SystemTextJsonVersion)" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.4" />
     <PackageVersion Include="System.Threading" Version="$(SystemPackagesVersion)" />
     <PackageVersion Include="System.Threading.Tasks" Version="$(SystemPackagesVersion)" />
     <!--
