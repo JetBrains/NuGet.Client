@@ -87,14 +87,13 @@ namespace NuGet.Commands
             }
         }
 
-        private static void ValidateProjectSpecV3(PackageSpec spec) => SpecValidationUtilityV3.ValidateProjectSpec(spec);
+        private static void ValidateProjectSpecV3(PackageSpec spec) =>
+            SpecValidationUtilityV3.ValidateProjectSpec(spec);
 
-        private static void ValidateProjectSpecV5(PackageSpec spec)
-        {
-            ValidateProjectSpec(spec, NullLogger.Instance);
-        }
+        private static void ValidateProjectSpecV5(PackageSpec spec, ILogger logger) =>
+            ValidateProjectSpecInternal(spec, logger);
 
-        private static void ValidateProjectSpec(PackageSpec spec, ILogger logger)
+        private static void ValidateProjectSpecInternal(PackageSpec spec, ILogger logger)
         {
             if (spec == null)
             {
@@ -152,11 +151,15 @@ namespace NuGet.Commands
 
         }
 
-        public static void ValidateProjectSpec(PackageSpec spec)
-        { if (SdkVersion != null && SdkVersion.Major < 5)
+        public static void ValidateProjectSpec(PackageSpec spec) =>
+            ValidateProjectSpec(spec, NullLogger.Instance);
+
+        public static void ValidateProjectSpec(PackageSpec spec, ILogger logger)
+        {
+            if (SdkVersion != null && SdkVersion.Major < 5)
                 ValidateProjectSpecV3(spec);
             else
-                ValidateProjectSpecV5(spec);
+                ValidateProjectSpecV5(spec, logger);
         }
 
         private static void ValidateFrameworks(PackageSpec spec, IEnumerable<string> files, ILogger logger)
