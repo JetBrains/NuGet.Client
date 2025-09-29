@@ -44,7 +44,9 @@ namespace NuGet.Commands
             // Verify required fields for all specs
             ValidateProjectMetadata(spec, files);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             if (projectStyle == ProjectStyle.Standalone)
+#pragma warning restore CS0618 // Type or member is obsolete
             {
                 ValidateStandaloneSpec(spec, files);
             }
@@ -68,7 +70,9 @@ namespace NuGet.Commands
                         ValidateProjectSpecPackageReference(spec, files);
                         break;
 
+#pragma warning disable CS0618 // Type or member is obsolete
                     case ProjectStyle.DotnetToolReference:
+#pragma warning restore CS0618 // Type or member is obsolete
                         ValidateProjectSpecPackageReference(spec, files);
                         break;
 
@@ -262,7 +266,9 @@ namespace NuGet.Commands
                     CultureInfo.CurrentCulture,
                     NuGetSpecValidationStrings.MissingRequiredPropertyForProjectType,
                     nameof(spec.RestoreMetadata.OutputPath),
+#pragma warning disable CS0618 // Type or member is obsolete
                     ProjectStyle.Standalone.ToString());
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 throw RestoreSpecException.Create(message, files);
             }
