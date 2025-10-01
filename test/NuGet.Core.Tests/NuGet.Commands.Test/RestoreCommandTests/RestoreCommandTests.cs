@@ -12,7 +12,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+#if IS_SIGNING_SUPPORTED
 using Microsoft.Internal.NuGet.Testing.SignedPackages;
+#endif
 using Moq;
 using NuGet.Common;
 using NuGet.Configuration;
@@ -1023,6 +1025,7 @@ namespace NuGet.Commands.Test.RestoreCommandTests
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         [PlatformFact(Platform.Windows)]
         public async Task RestoreCommand_InvalidSignedPackageAsync_FailsAsync()
         {
@@ -1232,6 +1235,7 @@ namespace NuGet.Commands.Test.RestoreCommandTests
                 Assert.True(result.Success);
             }
         }
+#endif
 
         [Fact]
         public async Task RestoreCommand_PathInPackageLibraryAsync()

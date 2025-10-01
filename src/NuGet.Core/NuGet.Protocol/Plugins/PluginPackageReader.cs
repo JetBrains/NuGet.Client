@@ -1142,10 +1142,12 @@ namespace NuGet.Protocol.Plugins
 
         public override bool CanVerifySignedPackages(SignedPackageVerifierSettings verifierSettings)
         {
+#if IS_SIGNING_SUPPORTED
             if (!verifierSettings.AllowUnsigned)
             {
                 throw new SignatureException(NuGetLogCode.NU3041, Strings.Plugin_DownloadNotSupportedSinceUnsignedNotAllowed);
             }
+#endif
             return false;
         }
 

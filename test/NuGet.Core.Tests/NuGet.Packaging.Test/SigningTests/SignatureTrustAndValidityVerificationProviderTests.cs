@@ -8,14 +8,19 @@ using Moq;
 using NuGet.Packaging.Signing;
 using Test.Utility;
 using Xunit;
+
+#if IS_SIGNING_SUPPORTED
 using Microsoft.Internal.NuGet.Testing.SignedPackages;
+#endif
 
 namespace NuGet.Packaging.Test
 {
     public class SignatureTrustAndValidityVerificationProviderTests
     {
+#if IS_SIGNING_SUPPORTED
         private static readonly Lazy<PrimarySignature> _signature = new Lazy<PrimarySignature>(
             () => PrimarySignature.Load(SigningTestUtility.GetResourceBytes(".signature.p7s")));
+#endif
         private readonly SignatureTrustAndValidityVerificationProvider _provider;
 
         public SignatureTrustAndValidityVerificationProviderTests()
@@ -23,6 +28,7 @@ namespace NuGet.Packaging.Test
             _provider = new SignatureTrustAndValidityVerificationProvider();
         }
 
+#if IS_SIGNING_SUPPORTED
         [Fact]
         public async Task GetTrustResultAsync_WhenPackageIsNull_Throws()
         {
@@ -35,6 +41,7 @@ namespace NuGet.Packaging.Test
 
             Assert.Equal("package", exception.ParamName);
         }
+#endif
 
         [Fact]
         public async Task GetTrustResultAsync_WhenSignatureIsNull_Throws()
@@ -49,6 +56,7 @@ namespace NuGet.Packaging.Test
             Assert.Equal("signature", exception.ParamName);
         }
 
+#if IS_SIGNING_SUPPORTED
         [Fact]
         public async Task GetTrustResultAsync_WhenSettingsIsNull_Throws()
         {
@@ -72,5 +80,6 @@ namespace NuGet.Packaging.Test
                     settings: SignedPackageVerifierSettings.GetDefault(TestEnvironmentVariableReader.EmptyInstance),
                     token: new CancellationToken(canceled: true)));
         }
+#endif
     }
 }

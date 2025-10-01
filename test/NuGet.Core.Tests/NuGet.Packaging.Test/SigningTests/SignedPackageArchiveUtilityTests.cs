@@ -4,16 +4,22 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+#if IS_SIGNING_SUPPORTED
 using System.Linq;
+#endif
 using System.Text;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
 using Xunit;
 using Microsoft.Internal.NuGet.Testing.SignedPackages;
+
+
+#if IS_SIGNING_SUPPORTED
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Test.Utility.Signing;
+#endif
 
 namespace NuGet.Packaging.Test
 {
@@ -259,6 +265,7 @@ namespace NuGet.Packaging.Test
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         [Fact]
         public async Task RemoveRepositorySignaturesAsync_WithNullInput_Throws()
         {
@@ -434,6 +441,7 @@ namespace NuGet.Packaging.Test
                 package.SetValue((byte)0, offsetOfCentralDirectoryHeaderLastModifiedDateTime + i);
             }
         }
+#endif
 
         private static byte[] GetEmptyZip()
         {
@@ -466,6 +474,7 @@ namespace NuGet.Packaging.Test
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         private static DateTimeOffset GetLastModifiedDateTimeOfPackageSignatureFile(MemoryStream package)
         {
             using (var zipArchive = new ZipArchive(package, ZipArchiveMode.Read, leaveOpen: true))
@@ -514,6 +523,7 @@ namespace NuGet.Packaging.Test
                 throw new InvalidDataException("Could not find central directory header for the package signature file.");
             }
         }
+#endif
 
         private sealed class Test : IDisposable
         {
@@ -542,6 +552,7 @@ namespace NuGet.Packaging.Test
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         private sealed class RemoveTest : IDisposable
         {
             private bool _isDisposed;
@@ -705,6 +716,6 @@ namespace NuGet.Packaging.Test
                 }
             }
         }
-
+#endif
     }
 }

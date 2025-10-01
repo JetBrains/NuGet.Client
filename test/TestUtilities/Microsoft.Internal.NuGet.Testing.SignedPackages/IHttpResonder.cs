@@ -5,7 +5,9 @@
 
 using System;
 
+#if IS_SIGNING_SUPPORTED
 using System.Net;
+#endif
 
 namespace Microsoft.Internal.NuGet.Testing.SignedPackages
 {
@@ -13,6 +15,8 @@ namespace Microsoft.Internal.NuGet.Testing.SignedPackages
     {
         Uri Url { get; }
 
+#if IS_SIGNING_SUPPORTED
         void Respond(HttpListenerContext context);
+#endif
     }
 }

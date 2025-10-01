@@ -18,8 +18,11 @@ using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using NuGet.Packaging.PackageExtraction;
 using NuGet.Versioning;
+
+#if IS_SIGNING_SUPPORTED
 using System.Security.Cryptography.X509Certificates;
 using NuGet.Packaging.Signing;
+#endif
 
 namespace NuGet.Test.Utility
 {
@@ -281,8 +284,11 @@ namespace NuGet.Test.Utility
             if (isUsingTempStream)
             {
                 using (tempStream)
+#if IS_SIGNING_SUPPORTED
                 using (var signPackage = new SignedPackageArchive(tempStream, stream))
+#endif
                 {
+#if IS_SIGNING_SUPPORTED
                     using (var request = GetPrimarySignRequest(packageContext))
                     {
                         await AddSignatureToPackageAsync(packageContext, signPackage, request, testLogger);
@@ -299,6 +305,7 @@ namespace NuGet.Test.Utility
                             await AddRepositoryCountersignatureToSignedPackageAsync(packageContext, signPackage, request, testLogger);
                         }
                     }
+#endif
                 }
             }
 
@@ -344,6 +351,7 @@ namespace NuGet.Test.Utility
                         : e.Exclude.Split(',').ToList())).ToList();
         }
 
+#if IS_SIGNING_SUPPORTED
         private static SignPackageRequest GetPrimarySignRequest(SimpleTestPackageContext packageContext)
         {
             if (packageContext.V3ServiceIndexUrl != null)
@@ -394,6 +402,7 @@ namespace NuGet.Test.Utility
                 }
             }
         }
+#endif
 
         /// <summary>
         /// Create packages.

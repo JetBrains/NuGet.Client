@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using NuGet.Common;
+
+#if IS_SIGNING_SUPPORTED
 using System.Linq;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
@@ -95,6 +98,7 @@ namespace NuGet.Packaging.Signing
             return validationFlags;
         }
 
+#if IS_SIGNING_SUPPORTED
         internal static SignatureVerificationStatusFlags ValidateTimestamp(Timestamp timestamp, Signature signature, bool treatIssuesAsErrors, List<SignatureLog> issues, SigningSpecifications spec)
         {
             if (timestamp == null)
@@ -186,5 +190,6 @@ namespace NuGet.Packaging.Signing
 
             return validationFlags;
         }
+#endif
     }
 }
