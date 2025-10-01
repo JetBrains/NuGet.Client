@@ -3,15 +3,19 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
 using System.Security.Cryptography.Pkcs;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
     public sealed class UnknownPrimarySignature : PrimarySignature
     {
+#if IS_SIGNING_SUPPORTED
         public UnknownPrimarySignature(SignedCms signedCms)
             : base(signedCms, SignatureType.Unknown)
         {
         }
+#endif
     }
 }

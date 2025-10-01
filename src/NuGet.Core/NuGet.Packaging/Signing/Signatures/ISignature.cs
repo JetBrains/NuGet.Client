@@ -3,13 +3,18 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
 using System.Security.Cryptography.Pkcs;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
     public interface ISignature
     {
+#if IS_SIGNING_SUPPORTED
         SignatureType Type { get; }
+
         SignerInfo SignerInfo { get; }
+#endif
     }
 }

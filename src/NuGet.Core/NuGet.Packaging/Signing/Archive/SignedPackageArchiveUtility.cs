@@ -10,7 +10,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+#if IS_SIGNING_SUPPORTED
 using System.Security.Cryptography.Pkcs;
+#endif
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -241,6 +243,7 @@ namespace NuGet.Packaging.Signing
             return false;
         }
 
+#if IS_SIGNING_SUPPORTED
         /// <summary>
         /// Removes repository primary signature (if it exists) or any repository countersignature (if it exists).
         /// </summary>
@@ -533,6 +536,32 @@ namespace NuGet.Packaging.Signing
 
             return false;
         }
+#else
+
+        public static Task<bool> RemoveRepositorySignaturesAsync(
+            Stream input,
+            Stream output,
+            CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void SignZip(MemoryStream signatureStream, BinaryReader reader, BinaryWriter writer)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void UnsignZip(BinaryReader reader, BinaryWriter writer)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void VerifySignedZipIntegrity(BinaryReader reader, HashAlgorithm hashAlgorithm, byte[] expectedHash)
+        {
+            throw new NotImplementedException();
+        }
+
+#endif
 
         private static List<CentralDirectoryHeaderMetadata> RemoveSignatureAndOrderByOffset(SignedPackageArchiveMetadata metadata)
         {
@@ -644,6 +673,7 @@ namespace NuGet.Packaging.Signing
             return (generalPurposeBitFlags & (1 << 11)) != 0;
         }
 
+#if IS_SIGNING_SUPPORTED
         private static bool CompareHash(byte[] expectedHash, byte[] actualHash)
         {
             if (expectedHash.Length != actualHash.Length)
@@ -660,6 +690,6 @@ namespace NuGet.Packaging.Signing
             }
             return true;
         }
-
+#endif
     }
 }

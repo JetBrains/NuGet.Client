@@ -3,6 +3,8 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
+
 using System;
 using Microsoft.Internal.NuGet.Testing.SignedPackages;
 using NuGet.Packaging.Signing;
@@ -53,3 +55,4 @@ namespace NuGet.Packaging.FuncTest
         }
     }
 }
+#endif

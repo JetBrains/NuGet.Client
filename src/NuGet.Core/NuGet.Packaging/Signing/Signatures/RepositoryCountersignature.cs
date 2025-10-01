@@ -4,17 +4,21 @@
 #nullable disable
 
 using System;
+
+#if IS_SIGNING_SUPPORTED
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using NuGet.Common;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
     public sealed class RepositoryCountersignature : Signature, IRepositorySignature
     {
+#if IS_SIGNING_SUPPORTED
         private readonly PrimarySignature _primarySignature;
 
         public Uri V3ServiceIndexUrl { get; }
@@ -126,5 +130,11 @@ namespace NuGet.Packaging.Signing
 
             return ReferenceEquals(_primarySignature, primarySignature);
         }
+#else
+        public static RepositoryCountersignature GetRepositoryCountersignature(PrimarySignature primarySignature)
+        {
+            throw new NotSupportedException();
+        }
+#endif
     }
 }

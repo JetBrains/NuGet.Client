@@ -3,6 +3,7 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
 using System;
 using System.Security.Cryptography.X509Certificates;
 
@@ -54,3 +55,4 @@ namespace NuGet.Packaging.Signing
         }
     }
 }
+#endif

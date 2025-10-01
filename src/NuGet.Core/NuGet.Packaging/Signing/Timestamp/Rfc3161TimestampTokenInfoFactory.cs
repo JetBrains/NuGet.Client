@@ -3,6 +3,7 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
 using System;
 
 namespace NuGet.Packaging.Signing
@@ -26,3 +27,4 @@ namespace NuGet.Packaging.Signing
         }
     }
 }
+#endif

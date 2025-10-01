@@ -3,7 +3,7 @@
 
 #nullable disable
 
-#if IS_CORECLR
+#if IS_SIGNING_SUPPORTED && IS_CORECLR
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
@@ -13,7 +13,7 @@ using NuGet.Common;
 
 namespace NuGet.Packaging.Signing
 {
-#if IS_CORECLR
+#if IS_SIGNING_SUPPORTED && IS_CORECLR
     internal sealed class ManagedCmsWrapper : ICms
     {
         private readonly SignedCms _signedCms;

@@ -3,7 +3,7 @@
 
 #nullable disable
 
-#if IS_CORECLR
+#if IS_SIGNING_SUPPORTED && IS_CORECLR
 using System;
 using System.Globalization;
 using System.Net.Http;

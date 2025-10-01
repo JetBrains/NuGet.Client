@@ -3,6 +3,7 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,11 +11,13 @@ using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using NuGet.Common;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
     public sealed class RepositoryPrimarySignature : PrimarySignature, IRepositorySignature
     {
+#if IS_SIGNING_SUPPORTED
         public Uri V3ServiceIndexUrl { get; }
         public IReadOnlyList<string> PackageOwners { get; }
 
@@ -55,5 +58,6 @@ namespace NuGet.Packaging.Signing
                 summary.ExpirationTime,
                 issues.Concat(summary.Issues));
         }
+#endif
     }
 }

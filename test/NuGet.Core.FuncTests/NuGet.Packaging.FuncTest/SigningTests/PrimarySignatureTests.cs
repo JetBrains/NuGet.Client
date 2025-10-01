@@ -3,6 +3,8 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
+
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -170,3 +172,4 @@ namespace NuGet.Packaging.FuncTest
         }
     }
 }
+#endif

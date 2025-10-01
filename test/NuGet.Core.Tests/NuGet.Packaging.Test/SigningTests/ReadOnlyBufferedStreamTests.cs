@@ -249,6 +249,7 @@ namespace NuGet.Packaging.Test
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         [Fact]
         public void Close_WhenLeaveOpenFalse_DisposesUnderlyingStream()
         {
@@ -270,6 +271,7 @@ namespace NuGet.Packaging.Test
                 Assert.Equal(0, test.UnderlyingStream.DisposeCallCount);
             }
         }
+#endif
 
         [Fact]
         public void CopyTo_WithCurrentPositionOfSourceStreamAtStart_CopiesEntireStream()

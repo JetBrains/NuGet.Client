@@ -3,6 +3,7 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -716,3 +717,4 @@ namespace NuGet.Packaging.Signing
         }
     }
 }
+#endif

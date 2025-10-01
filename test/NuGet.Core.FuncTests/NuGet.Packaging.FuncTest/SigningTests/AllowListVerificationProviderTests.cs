@@ -3,6 +3,8 @@
 
 #nullable disable
 
+#if IS_SIGNING_SUPPORTED
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1098,3 +1100,4 @@ namespace NuGet.Packaging.FuncTest
         }
     }
 }
+#endif

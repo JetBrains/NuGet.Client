@@ -5,9 +5,11 @@
 
 using System;
 using System.Runtime.InteropServices;
+#if IS_SIGNING_SUPPORTED
 using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using NuGet.Packaging.Signing.Utility;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
@@ -29,6 +31,7 @@ namespace NuGet.Packaging.Signing
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         internal static SignedCms NativeSign(CmsSigner cmsSigner, byte[] data, CngKey privateKey)
         {
             using (var hb = new HeapBlockRetainer())
@@ -204,5 +207,6 @@ namespace NuGet.Packaging.Signing
 
             return signerInfo;
         }
+#endif
     }
 }
