@@ -3,6 +3,7 @@
 
 #pragma warning disable CS1591
 
+#if IS_SIGNING_SUPPORTED
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,11 +13,13 @@ using System.Threading.Tasks;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
 using Xunit;
+#endif
 
 namespace Microsoft.Internal.NuGet.Testing.SignedPackages
 {
     public static class SignatureTestUtility
     {
+#if IS_SIGNING_SUPPORTED
         // Central Directory file header size excluding signature, file name, extra field and file comment
         private const uint CentralDirectoryFileHeaderSizeWithoutSignature = 46;
 
@@ -229,5 +232,6 @@ namespace Microsoft.Internal.NuGet.Testing.SignedPackages
             cdr.RemoveAt(recordIndex);
             cdr.Insert(index, signatureCD);
         }
+#endif
     }
 }

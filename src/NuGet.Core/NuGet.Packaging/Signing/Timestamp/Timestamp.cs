@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+#if IS_SIGNING_SUPPORTED
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,11 +9,13 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using NuGet.Common;
 using System.Security.Cryptography.Pkcs;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
     public sealed class Timestamp
     {
+#if IS_SIGNING_SUPPORTED
 
         /// <summary>
         /// Upper limit of Timestamp.
@@ -276,5 +279,6 @@ namespace NuGet.Packaging.Signing
                 return flags;
             }
         }
+#endif
     }
 }

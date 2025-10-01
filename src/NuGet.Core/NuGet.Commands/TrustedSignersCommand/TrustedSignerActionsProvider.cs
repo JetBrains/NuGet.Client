@@ -67,6 +67,7 @@ namespace NuGet.Commands
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Strings.Error_TrustedRepositoryDoesNotExist, name));
         }
 
+#if IS_SIGNING_SUPPORTED
         /// <summary>
         /// Adds a trusted signer item to the settings based a signed package.
         /// </summary>
@@ -150,6 +151,8 @@ namespace NuGet.Commands
                 await _logger.LogAsync(LogLevel.Minimal, string.Format(CultureInfo.CurrentCulture, Strings.SuccessfullyAddedTrustedAuthor, name));
             }
         }
+
+#endif
 
         /// <summary>
         /// Updates the certificate list of a trusted signer by adding the given certificate.
@@ -254,6 +257,7 @@ namespace NuGet.Commands
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         private CertificateItem GetCertificateItemForSignature(ISignature signature, bool allowUntrustedRoot = false)
         {
             var defaultHashAlgorithm = HashAlgorithmName.SHA256;
@@ -261,6 +265,7 @@ namespace NuGet.Commands
 
             return new CertificateItem(fingerprint, defaultHashAlgorithm, allowUntrustedRoot);
         }
+#endif
 
         private async Task<CertificateItem[]> GetCertificateItemsFromServiceIndexAsync(string serviceIndex, CancellationToken token)
         {

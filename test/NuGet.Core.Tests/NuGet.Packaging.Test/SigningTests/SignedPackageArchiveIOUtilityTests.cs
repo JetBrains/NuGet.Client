@@ -164,6 +164,7 @@ namespace NuGet.Packaging.Test
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         [Fact]
         public void ReadAndHashUntilPosition_WhenPositionAtStart_ReadsAndHashes()
         {
@@ -218,6 +219,7 @@ namespace NuGet.Packaging.Test
                 Assert.Equal(test.Reader.BaseStream.Length, test.Reader.BaseStream.Position);
             }
         }
+#endif
 
         [Fact]
         public void HashBytes_WhenHashAlgorithmNull_Throws()
@@ -245,6 +247,7 @@ namespace NuGet.Packaging.Test
             }
         }
 
+#if IS_SIGNING_SUPPORTED
         [Fact]
         public void HashBytes_WithInputBytes_Hashes()
         {
@@ -259,6 +262,7 @@ namespace NuGet.Packaging.Test
                 Assert.Equal("rksygOVuL6+D9BSm49q+nV++GJdlRMBf7RIazLhbU/w=", actualHash);
             }
         }
+#endif
 
         [Fact]
         public void ReadSignedArchiveMetadata_WhenReaderNull_Throws()
@@ -481,9 +485,13 @@ namespace NuGet.Packaging.Test
 
             internal string GetHash()
             {
+#if IS_SIGNING_SUPPORTED
                 HashAlgorithm.TransformFinalBlock(new byte[0], inputOffset: 0, inputCount: 0);
 
                 return Convert.ToBase64String(HashAlgorithm.Hash);
+#else
+                throw new NotImplementedException();
+#endif
             }
         }
     }

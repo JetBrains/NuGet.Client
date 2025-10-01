@@ -4,8 +4,10 @@
 #pragma warning disable CS1591
 
 using System;
+#if IS_SIGNING_SUPPORTED
 using System.IO;
 using System.Net;
+#endif
 
 namespace Microsoft.Internal.NuGet.Testing.SignedPackages
 {
@@ -13,6 +15,7 @@ namespace Microsoft.Internal.NuGet.Testing.SignedPackages
     {
         public abstract Uri Url { get; }
 
+#if IS_SIGNING_SUPPORTED
         public abstract void Respond(HttpListenerContext context);
 
         protected static bool IsGet(HttpListenerRequest request)
@@ -56,5 +59,6 @@ namespace Microsoft.Internal.NuGet.Testing.SignedPackages
 #endif
             }
         }
+#endif
     }
 }

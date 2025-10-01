@@ -5,11 +5,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NuGet.Common;
+
+#if IS_SIGNING_SUPPORTED
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
+#endif
 
 namespace NuGet.Packaging.Signing
 {
@@ -53,6 +56,7 @@ namespace NuGet.Packaging.Signing
             request.BuildSigningCertificateChainOnce(logger);
         }
 
+#if IS_SIGNING_SUPPORTED
         public static CryptographicAttributeObjectCollection CreateSignedAttributes(
             SignPackageRequest request,
             IReadOnlyList<X509Certificate2> chainList)
@@ -281,5 +285,12 @@ namespace NuGet.Packaging.Signing
 
             return new SignatureContent(SigningSpecifications.V1, hashAlgorithmName, base64ZipArchiveHash);
         }
+#else
+
+        /// <summary>
+        /// Add a signature to a package.
+        /// </summary>
+        public static Task SignAsync(SigningOptions options, SignPackageRequest signRequest, CancellationToken token) => throw new NotImplementedException();
+#endif
     }
 }
