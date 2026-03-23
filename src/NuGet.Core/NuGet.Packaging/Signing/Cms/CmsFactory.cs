@@ -3,6 +3,8 @@
 
 using System;
 
+#nullable disable
+
 #if IS_SIGNING_SUPPORTED && !IS_DESKTOP
 using System.Security.Cryptography.Pkcs;
 #endif
