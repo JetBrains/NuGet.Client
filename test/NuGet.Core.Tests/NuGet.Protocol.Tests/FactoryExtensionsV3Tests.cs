@@ -13,7 +13,7 @@ namespace NuGet.Protocol.Tests
         [Fact]
         public void GetCoreV3_WhenFactoryIsNull_Throws()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FactoryExtensionsV3.GetCoreV3(factory: null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FactoryExtensionsV3.GetCoreV3Default(factory: null));
 
             Assert.Equal("factory", exception.ParamName);
         }
@@ -30,7 +30,7 @@ namespace NuGet.Protocol.Tests
         public void GetCoreV3_WithCustomFactory_ReturnsCustomResult()
         {
             var factory = new CustomProviderFactory();
-            IEnumerable<Lazy<INuGetResourceProvider>> resourceProviders = FactoryExtensionsV3.GetCoreV3(factory);
+            IEnumerable<Lazy<INuGetResourceProvider>> resourceProviders = factory.GetCoreV3Default();
 
             Assert.Same(factory.ExpectedResult, resourceProviders);
         }
