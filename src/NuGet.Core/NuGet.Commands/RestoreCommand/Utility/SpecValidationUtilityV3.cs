@@ -109,7 +109,7 @@ namespace NuGet.Commands
                 var message = string.Format(
                     CultureInfo.CurrentCulture,
                     NuGetSpecValidationStrings.PropertyNotAllowed,
-                    nameof(spec.Dependencies));
+                    "Dependencies");
 
                 throw RestoreSpecException.Create(message, files);
             }
@@ -336,7 +336,6 @@ namespace NuGet.Commands
         }
 
         private static IEnumerable<LibraryDependency> GetAllDependencies(PackageSpec spec) =>
-            spec.Dependencies
-                .Concat(spec.TargetFrameworks.SelectMany(f => f.Dependencies));
+            spec.TargetFrameworks.SelectMany(f => f.Dependencies);
     }
 }
