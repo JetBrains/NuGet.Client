@@ -46,7 +46,7 @@ namespace NuGet.Protocol.Plugins
             _environmentVariableReader = null!;
         }
 
-        internal PluginFactory(TimeSpan pluginIdleTimeout, IEnvironmentVariableReader environmentVariableReader)
+        public PluginFactory(TimeSpan pluginIdleTimeout, IEnvironmentVariableReader environmentVariableReader)
         {
             _environmentVariableReader = environmentVariableReader ?? throw new ArgumentNullException(nameof(environmentVariableReader));
 
