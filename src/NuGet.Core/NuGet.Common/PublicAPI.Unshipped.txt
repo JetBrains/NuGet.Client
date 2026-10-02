@@ -1,4 +1,6 @@
 #nullable enable
+NuGet.Common.XmlUtility
+static NuGet.Common.XmlUtility.Load(string! path) -> System.Xml.Linq.XDocument!
 NuGet.Common.StaticState
 static NuGet.Common.StaticState.BuildEnded -> System.Action?
 static NuGet.Common.StaticState.RaiseBuildEnded() -> void
